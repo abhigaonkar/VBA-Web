@@ -1,23 +1,73 @@
-# WBS for Lamp Rod Application
-
-## 1. Development
-### 1.1 UI/UX
-- Task 1: User Research - 20 hours
-- Task 2: Wireframes - 15 hours
-- Task 3: Prototyping - 25 hours
-- Task 4: UI Design - 30 hours
-
-### 1.2 Backend
-- Task 1: Database Design - 20 hours
-- Task 2: API Development - 35 hours
-- Task 3: Integration - 15 hours
-
-## 2. Testing
-- Task 1: Unit Testing - 15 hours
-- Task 2: Integration Testing - 20 hours
-- Task 3: User Acceptance Testing - 25 hours
-
-## 3. Common/Other Activities
-- Task 1: Documentation - 10 hours
-- Task 2: Project Management - 15 hours
-- Task 3: Review Meetings - 5 hours
+ID,Task,Hours,Est. Days,Complexity,Role
+1 · INITIATION & ARCHITECTURE,,,,,
+1.1,Project kick-off, stakeholder alignment & scope sign-off,20,3,Low,PM
+1.2,Current-state analysis (manual lamp rod processes & SAP integration),32,4,Medium,SA
+1.3,Solution architecture design (UI stack + .NET backend + SAP BTP integration),36,5,High,SA
+1.4,Tech stack & infrastructure setup (repo, CI/CD, DB provisioning),20,3,Medium,DevOps
+1.5,Database/schema design (rod log, sand transfer, ref data, audit),28,4,Medium,BA / Dev
+1.6,API contract definition & review (OpenAPI/Swagger),20,3,Medium,SA
+1.7,UI/UX wireframes & prototype review (main screens),36,5,Medium,UI/UX
+1.8,Sprint planning & backlog grooming,14,2,Low,PM
+2 · BACKEND — .NET API,,,,,
+2.1,Project scaffolding (.NET Web API, EF Core, repository pattern),14,2,Low,Dev BE
+2.2,Authentication & authorisation (AD / LDAP integration),34,5,High,Dev BE
+2.3,Reference API (furnaces, sand types, batches, printers, yield rates),28,4,Medium,Dev BE
+2.4,Rod draw record CRUD API (create/read/update/SAP-flag management),44,6,Medium,Dev BE
+2.5,Sand transfer CRUD API,28,4,Medium,Dev BE
+2.6,Offline queue processor (store & forward when SAP unavailable),44,6,High,Dev BE
+2.7,Audit log & event sourcing,28,4,Medium,Dev BE
+2.8,Remote backup service,20,3,Medium,Dev BE
+2.9,Label print API (single format, BTP print relay),28,4,Medium,Dev BE
+2.10,SAP replay background service,36,5,High,Dev BE
+2.11,Unit tests — backend (≥80% coverage),36,5,Medium,Dev BE
+2.12,API documentation & Swagger finalisation,14,2,Low,Dev BE
+3 · FRONTEND — UI,,,,,
+3.1,UI project setup (stack, routing),14,2,Low,Dev FE
+3.2,Shared UI components (fields, tables, badges, toasts),34,5,Medium,Dev FE
+3.3,Draw Form screen (all input fields, toggle buttons, SAP lookups),54,7,High,Dev FE
+3.4,Sand Transfer Form screen (MB52 stock, FIFO, transfer),32,4,Medium,Dev FE
+3.5,Rod Log view (filterable table, SAP flag, pagination),28,4,Medium,Dev FE
+3.6,Reference admin screen,28,4,Medium,Dev FE
+3.7,Online/offline mode indicator & queue status,20,3,Medium,Dev FE
+3.8,Label print flow (count, qty per label, printer select),20,3,Low,Dev FE
+3.9,Material spec viewer (OD/ID/wall, SAP MM03),20,3,Medium,Dev FE
+3.10,UX accessibility & responsive layout,20,3,Medium,Dev FE
+3.11,Unit & component tests (≥70% coverage),34,5,Medium,Dev FE
+4 · SAP INTEGRATION LAYER,,,,,
+4.1,SAP BTP API connectivity setup,28,4,High,Dev SAP
+4.2,Order lookup (COR3) integration,28,4,Medium,Dev SAP
+4.3,Material spec query (MM03),28,4,Medium,Dev SAP
+4.4,Confirmation post (COR6) integration,54,7,High,Dev SAP
+4.5,Sand movement post (MIGO / ZMMS2S),36,5,High,Dev SAP
+4.6,Warehouse stock (MB52) query,28,4,Medium,Dev SAP
+4.7,Rod trace FIFO lookup,28,4,Medium,Dev SAP
+4.8,Label print integration (BTP relay),34,5,High,Dev SAP
+4.9,SAP error handling & retry/COGI fallbacks,34,5,High,Dev SAP
+4.10,Integration tests (SAP sandbox),36,5,High,Dev SAP
+5 · DATA MIGRATION,,,,,
+5.1,Data profiling (legacy rod log, sand trans, ref tables),20,3,Medium,BA
+5.2,Migrate rod log,28,4,Medium,Dev BE
+5.3,Migrate sand transfer log,14,2,Low,Dev BE
+5.4,Reference data seeding,14,2,Low,Dev BE
+5.5,Dry-run, validation, cut-over planning,20,3,Medium,BA / QA
+5.6,Rollback procedure,12,2,Medium,PM / BA
+6 · TESTING & QA,,,,,
+6.1,Test plan authoring,20,3,Medium,QA
+6.2,E2E test cases — draw (serialized path),34,5,High,QA
+6.3,E2E test cases — draw (non-serialized path),28,4,High,QA
+6.4,Test cases — sand transfer,20,3,Medium,QA
+6.5,Integration testing (SAP, offline mode),36,5,High,QA / Dev SAP
+6.6,Performance testing,20,3,Medium,QA
+6.7,UAT (2 shifts),32,4,Medium,BA / PM
+6.8,UAT defect triage & fix,32,4,High,Dev BE / FE
+6.9,Security review,20,3,Medium,SA / Dev BE
+7 · DEPLOYMENT & HANDOVER,,,,,
+7.1,Prod environment setup,20,3,Medium,DevOps
+7.2,CI/CD pipeline,18,2,Medium,DevOps
+7.3,Monitoring & alerting,14,2,Medium,DevOps
+7.4,Operator training,18,3,Low,PM / BA
+7.5,Documentation,14,2,Low,BA
+7.6,Parallel run (old+new app),64,8,High,PM / All
+7.7,Cut-over & decommission,14,2,Medium,PM / DevOps
+7.8,Hypercare (2 weeks),64,8,Medium,Dev BE / FE
+7.9,Project closure,14,2,Low,PM
