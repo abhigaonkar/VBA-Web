@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bake Application — Modernisation Report</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1923;
+  --navy-mid: #1a2535;
+  --navy-soft: #243044;
+  --blue: #2563eb;
+  --blue-lt: #dbeafe;
+  --blue-mid: #93c5fd;
+  --teal: #0d9488;
+  --teal-lt: #ccfbf1;
+  --amber: #d97706;
+  --amber-lt: #fef3c7;
+  --purple: #7c3aed;
+  --purple-lt: #ede9fe;
+  --green: #16a34a;
+  --green-lt: #dcfce7;
+  --red: #dc2626;
+  --red-lt: #fee2e2;
+  --slate: #475569;
+  --slate-lt: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f1923;
+  --text-mid: #334155;
+  --text-muted: #64748b;
+  --white: #ffffff;
+  --page-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOP HEADER ── */
+.site-header {
+  background: var(--navy);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.header-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 56px;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-right: 1px solid rgba(255,255,255,.1);
+  height: 100%;
+}
+.brand-icon {
+  width: 28px; height: 28px;
+  background: var(--blue);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.brand-name {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -.01em;
+}
+.brand-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+  font-weight: 300;
+  margin-top: 1px;
+}
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 16px;
+  height: 100%;
+  overflow-x: auto;
+  flex: 1;
+}
+.top-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.55);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 7px;
+  white-space: nowrap;
+  transition: all .15s;
+  height: 36px;
+}
+.top-nav-btn:hover { background: rgba(255,255,255,.08); color: rgba(255,255,255,.85); }
+.top-nav-btn.active { background: rgba(37,99,235,.35); color: #93c5fd; }
+.top-nav-btn .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; opacity: .6;
+}
+.header-meta {
+  margin-left: auto;
+  padding: 0 24px;
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  white-space: nowrap;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--navy);
+  padding: 56px 24px 48px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.hero-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--blue-mid);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.hero-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  margin-bottom: 12px;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--blue-mid);
+}
+.hero-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.5);
+  max-width: 560px;
+  line-height: 1.7;
+}
+.hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hero-stat {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  text-align: center;
+  min-width: 130px;
+}
+.hero-stat .num {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+.hero-stat .lbl {
+  font-size: 10px;
+  color: rgba(255,255,255,.4);
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+/* ── MAIN LAYOUT ── */
+.main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* ── SECTIONS ── */
+.section { display: none; }
+.section.active { display: block; }
+
+.section-heading {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 12px;
+}
+
+/* ── GRID ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+/* ── METRIC TILES ── */
+.metric-tile {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.metric-tile .m-label { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+.metric-tile .m-val { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; line-height: 1; }
+.metric-tile .m-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  white-space: nowrap;
+}
+.badge-blue { background: var(--blue-lt); color: #1e40af; }
+.badge-teal { background: var(--teal-lt); color: #0f766e; }
+.badge-amber { background: var(--amber-lt); color: #92400e; }
+.badge-purple { background: var(--purple-lt); color: #5b21b6; }
+.badge-green { background: var(--green-lt); color: #166534; }
+.badge-red { background: var(--red-lt); color: #991b1b; }
+.badge-slate { background: var(--slate-lt); color: #334155; }
+
+/* ── PILLS ── */
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; border: 1px solid var(--border); color: var(--text-muted); margin: 2px; }
+.pill-online { background: var(--green-lt); color: #166534; border-color: #86efac; }
+.pill-offline { background: var(--amber-lt); color: #92400e; border-color: #fcd34d; }
+
+/* ── ITEM ROWS ── */
+.item-list { display: flex; flex-direction: column; gap: 0; }
+.item-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px; line-height: 1.5;
+}
+.item-row:last-child { border-bottom: none; }
+.item-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+
+/* ── TABS (inner) ── */
+.inner-tabs { display: flex; gap: 4px; margin-bottom: 20px; flex-wrap: wrap; }
+.inner-tab {
+  padding: 6px 14px; font-size: 12px; font-weight: 500;
+  border: 1px solid var(--border); border-radius: 20px;
+  background: var(--card-bg); color: var(--text-muted);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.inner-tab:hover { border-color: var(--blue); color: var(--blue); }
+.inner-tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* ── TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.data-table th {
+  text-align: left; padding: 8px 10px;
+  background: var(--navy); color: rgba(255,255,255,.8);
+  font-size: 11px; font-weight: 500; letter-spacing: .04em;
+  position: sticky; top: 56px;
+}
+.data-table th:first-child { border-radius: 8px 0 0 0; }
+.data-table th:last-child { border-radius: 0 8px 0 0; }
+.data-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top; line-height: 1.5;
+}
+.data-table tr:nth-child(even) td { background: var(--slate-lt); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .td-phase { font-weight: 600; color: var(--navy); width: 60px; }
+.data-table .td-task { }
+.data-table .td-num { text-align: center; font-family: 'DM Mono', monospace; font-size: 12px; }
+
+/* ── PHASE HEADERS IN TABLE ── */
+.phase-row td {
+  background: var(--navy) !important;
+  color: rgba(255,255,255,.9);
+  font-weight: 600; font-size: 12px;
+  padding: 10px 10px;
+}
+
+/* ── ACTION TABLE ── */
+.action-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.action-table th {
+  background: var(--slate); color: #fff;
+  padding: 7px 10px; font-size: 11px; font-weight: 500;
+  text-align: left;
+}
+.action-table td {
+  padding: 8px 10px; border-bottom: 1px solid var(--border);
+  vertical-align: top; line-height: 1.5;
+}
+.action-table tr:nth-child(even) td { background: #fafafa; }
+.action-table tr:hover td { background: var(--blue-lt); }
+.action-table .col-action { width: 170px; font-weight: 600; }
+
+/* ── TRIGGER TAGS ── */
+.ttag {
+  display: inline-block; font-size: 9.5px; font-weight: 600;
+  padding: 1px 5px; border-radius: 3px; margin-right: 4px;
+  font-family: 'DM Mono', monospace;
+}
+.ttag-click { background: #dbeafe; color: #1e40af; }
+.ttag-auto { background: #dcfce7; color: #166534; }
+.ttag-toggle { background: #fef3c7; color: #92400e; }
+.ttag-change { background: #ede9fe; color: #5b21b6; }
+
+/* ── INT BADGES ── */
+.int-badge {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 1px 6px; border-radius: 10px; margin: 1px;
+}
+.ib-sap { background: #dbeafe; color: #1e40af; }
+.ib-sheet { background: #dcfce7; color: #166534; }
+.ib-remote { background: #fef3c7; color: #92400e; }
+.ib-ui { background: #ede9fe; color: #5b21b6; }
+
+/* ── RISK TABLE ── */
+.risk-hi { color: var(--red); font-weight: 600; }
+.risk-med { color: var(--amber); font-weight: 600; }
+.risk-lo { color: var(--green); font-weight: 600; }
+
+/* ── GANTT ── */
+.gantt-wrap { overflow-x: auto; }
+.gantt-table { width: 100%; border-collapse: collapse; min-width: 900px; }
+.gantt-table th {
+  background: var(--navy-mid); color: rgba(255,255,255,.7);
+  font-size: 10px; font-weight: 500; padding: 5px 4px;
+  text-align: center; white-space: nowrap;
+  position: sticky; top: 0;
+}
+.gantt-table .gt-label { text-align: left; padding: 5px 10px; width: 280px; }
+.gantt-table .gt-phase { text-align: left; width: 50px; }
+.gantt-table td {
+  padding: 3px 2px; border-bottom: 1px solid #eee;
+  font-size: 11px; height: 22px;
+}
+.gantt-table .gt-task-label { font-size: 11px; padding: 3px 10px; white-space: nowrap; overflow: hidden; }
+.gantt-table .gt-phase-label { font-size: 10px; padding: 3px 5px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+.gantt-section td { background: var(--navy) !important; color: rgba(255,255,255,.9) !important; font-weight: 600 !important; font-size: 11px; padding: 7px 10px !important; }
+.gantt-bar { border-radius: 3px; height: 14px; margin: 2px auto; }
+.gantt-milestone { text-align: center; font-size: 13px; }
+
+/* ── RESOURCE GRID ── */
+.resource-grid { overflow-x: auto; }
+.res-table { width: 100%; border-collapse: collapse; min-width: 900px; font-size: 11.5px; }
+.res-table th {
+  background: var(--navy); color: rgba(255,255,255,.75);
+  padding: 7px 6px; font-size: 10px; font-weight: 500;
+  text-align: center; white-space: nowrap;
+}
+.res-table th.rt-left { text-align: left; padding-left: 10px; }
+.res-table td { padding: 6px; border-bottom: 1px solid var(--border); text-align: center; }
+.res-table td.rt-left { text-align: left; padding-left: 10px; font-weight: 500; }
+.res-table td.rt-role { font-size: 10px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+.res-table .rt-total { background: var(--navy); color: #fff; font-weight: 600; }
+.load-0 { background: #f8fafc; color: #cbd5e1; }
+.load-25 { background: #dbeafe; color: #1e40af; font-weight: 500; }
+.load-50 { background: #bfdbfe; color: #1e40af; font-weight: 500; }
+.load-75 { background: #ccfbf1; color: #0f766e; font-weight: 600; }
+.load-100 { background: #dcfce7; color: #166534; font-weight: 700; }
+
+/* ── SCHEDULE LEGEND ── */
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+.legend-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── WBS SECTION LABELS ── */
+.wbs-phase-hdr {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--navy); color: #fff;
+  padding: 10px 14px; border-radius: 8px;
+  margin: 16px 0 4px; font-size: 13px; font-weight: 600;
+}
+.wbs-phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── EFFORT DONUT (CSS only) ── */
+.effort-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.effort-bars { display: flex; flex-direction: column; gap: 8px; }
+.effort-bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.effort-bar-label { width: 120px; flex-shrink: 0; font-weight: 500; }
+.effort-bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.effort-bar-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+.effort-bar-num { width: 40px; text-align: right; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted); }
+
+/* ── PRINT ── */
+@media print {
+  .site-header { position: static; }
+  .section { display: block !important; page-break-before: always; }
+  .section:first-of-type { page-break-before: avoid; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: row; flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── STICKY HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-icon">🔥</div>
+      <div>
+        <div class="brand-name">Bake App</div>
+        <div class="brand-sub">Modernisation Report</div>
+      </div>
+    </div>
+    <nav class="top-nav">
+      <button class="top-nav-btn active" onclick="showSection('overview',this)"><span class="dot"></span>Business Overview</button>
+      <button class="top-nav-btn" onclick="showSection('requirements',this)"><span class="dot"></span>Requirements</button>
+      <button class="top-nav-btn" onclick="showSection('flow',this)"><span class="dot"></span>Process Flow</button>
+      <button class="top-nav-btn" onclick="showSection('screens',this)"><span class="dot"></span>Screen & Action Map</button>
+      <button class="top-nav-btn" onclick="showSection('risks',this)"><span class="dot"></span>Risks & NFRs</button>
+      <button class="top-nav-btn" onclick="showSection('wbs',this)"><span class="dot"></span>WBS</button>
+      <button class="top-nav-btn" onclick="showSection('resources',this)"><span class="dot"></span>Resource Plan</button>
+      <button class="top-nav-btn" onclick="showSection('schedule',this)"><span class="dot"></span>Schedule</button>
+      <button class="top-nav-btn" onclick="showSection('roles',this)"><span class="dot"></span>Effort & Roles</button>
+    </nav>
+    <div class="header-meta">Momentive Technologies · Q105 · Mar 2026</div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Reverse-engineered from BakeApplication.xlsm</div>
+      <h1 class="hero-title">Glass Tube Vacuum<br><em>Baking Operations</em><br>Modernisation</h1>
+      <p class="hero-desc">Full business analysis, functional requirements, screen & action map, and React + .NET API project plan for replacing the Excel VBA bake tracking system.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">10</div><div class="lbl">Active Ovens</div></div>
+      <div class="hero-stat"><div class="num">1,650+</div><div class="lbl">Bake Records</div></div>
+      <div class="hero-stat"><div class="num">9</div><div class="lbl">SAP Transactions</div></div>
+      <div class="hero-stat"><div class="num">287</div><div class="lbl">Est. Project Days</div></div>
+      <div class="hero-stat"><div class="num">6 mo</div><div class="lbl">Timeline</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+<!-- ════════════════════════════════════════════════
+     SECTION 1 — BUSINESS OVERVIEW
+════════════════════════════════════════════════ -->
+<section id="s-overview" class="section active">
+  <div class="section-heading">Business Understanding</div>
+  <div class="section-sub">What the application solves, who uses it, and how it works.</div>
+
+  <div class="grid-4" style="margin-bottom:16px">
+    <div class="metric-tile"><div class="m-label">Ovens tracked</div><div class="m-val" style="color:var(--blue)">10</div><div class="m-sub">NV0A – NV0J</div></div>
+    <div class="metric-tile"><div class="m-label">Bake records</div><div class="m-val" style="color:var(--green)">1,650+</div><div class="m-sub">Jul 2025 – Mar 2026</div></div>
+    <div class="metric-tile"><div class="m-label">Sand transfers</div><div class="m-val" style="color:var(--amber)">147</div><div class="m-sub">NF21 – NF38</div></div>
+    <div class="metric-tile"><div class="m-label">SAP transactions</div><div class="m-val" style="color:var(--purple)">9</div><div class="m-sub">Automated via GUI scripting</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Problem Being Solved</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--blue)"></div><div>Operators manually entering bake completions into SAP is error-prone and time-consuming. This tool automates SAP postings (COR6 confirmations, MIGO goods movements, MB52/MB51 stock queries).</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--blue)"></div><div>Tracks which unbaked tubes went into which oven, for how long, yielding which baked items — providing full lot traceability from unbaked batch → pallet card → baked item.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--blue)"></div><div>Manages sand (quartz) feedstock transfers between warehouse and furnaces with FIFO ordering using SAP MB51/MB52 transaction data.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--blue)"></div><div>Supports <span class="pill pill-online">● Online</span> (live SAP GUI scripting) and <span class="pill pill-offline">● Offline</span> (local-only logging) modes for resilience when SAP is unavailable.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">User Personas</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div><strong>Furnace Operator</strong> — enters bake records, selects hamper/strapping containers, triggers SAP saves. (e.g. wickhamc, Belcherc, richcreekr)</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--purple)"></div><div><strong>Shift Supervisor</strong> — monitors SAP status, reviews "Entered in SAP?" column, clears discrepancies via ketchup replay routine.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div><strong>Sand Handler</strong> — uses SandForm to transfer quartz sand batches from warehouse (0015/0100) to furnace locations (NF21–NF38) with FIFO batch ordering.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">SAP Transactions Automated</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">
+      <span class="badge badge-blue">COR6 — Process Order Confirmation</span>
+      <span class="badge badge-blue">MIGO — Goods Movement (261/309/311)</span>
+      <span class="badge badge-green">MB52 — Warehouse Stock by Material</span>
+      <span class="badge badge-green">MB51 — Material Document List (FIFO)</span>
+      <span class="badge badge-amber">MM03 — Material Master Display</span>
+      <span class="badge badge-amber">COR3 — Process Order Display</span>
+      <span class="badge badge-purple">ZMMS2S — Custom Sand Transfer</span>
+      <span class="badge badge-red">COP1 — Handling Unit Create</span>
+      <span class="badge badge-red">COWBHU — HU Goods Movement</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Key Inputs</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>Pallet card number, oven selection (NV0A–NV0J), bake hours (soak time only)</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>Baked process order, baked/unbaked item numbers, batch numbers (up to 16)</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>Baked qty, unbaked qty, hamper selection, strapping, comments</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>Sand item/batch, transfer quantity, source/destination furnace location</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key Outputs</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>SAP COR6 confirmation (step 20 + step 40) with yield, scrap, hours, operator</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>MIGO 261/309 goods movements for material issue and hamper/strapping</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>Pallet labels printed to shop-floor printers (HEBPRNP054–057)</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>OvenLog.xlsx remote backup on SharePoint UNC path + TransactionLog.csv audit trail</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 2 — REQUIREMENTS
+════════════════════════════════════════════════ -->
+<section id="s-requirements" class="section">
+  <div class="section-heading">Functional Requirements</div>
+  <div class="section-sub">Core features and business rules inferred from VBA logic and sheet formulas.</div>
+
+  <div class="card">
+    <div class="card-title">Core Functional Requirements</div>
+    <table class="data-table">
+      <thead><tr><th style="width:60px">ID</th><th>Requirement</th><th style="width:110px">Owner</th></tr></thead>
+      <tbody>
+        <tr><td class="td-phase">FR-01</td><td><strong>Bake entry form (BakeForm)</strong> — Operator selects oven (NV0A–NV0J), enters pallet card, bake hours, process order. System auto-fills item description via MM03 lookup when process order is entered. Supports up to 16 batch numbers per entry.</td><td><span class="badge badge-blue">Dev FE + BE</span></td></tr>
+        <tr><td class="td-phase">FR-02</td><td><strong>Serialized vs non-serialized modes</strong> — Toggle switches between serialized tube tracking (batch per tube, HU creation) and non-serialized bulk bake recording. Drives different SAP workflows (COP1/COWBHU vs direct COR6).</td><td><span class="badge badge-blue">Dev FE</span></td></tr>
+        <tr><td class="td-phase">FR-03</td><td><strong>Hamper & strapping assignment</strong> — Operator selects up to 2 hampers and strapping containers. System auto-resolves SAP item numbers and movement types (261/309) from reference data. Prompts if operator forgets hamper.</td><td><span class="badge badge-teal">Dev BE</span></td></tr>
+        <tr><td class="td-phase">FR-04</td><td><strong>SAP COR6 confirmation posting</strong> — Submits step 20 (furnace set-up) and step 40 (baking confirmation) with yield qty, scrap qty, bake hours, equipment, and operator ID to SAP automatically.</td><td><span class="badge badge-amber">Dev SAP</span></td></tr>
+        <tr><td class="td-phase">FR-05</td><td><strong>MIGO goods movement posting</strong> — Issues unbaked material from stock (mvt 261) and transfers finished goods and hamper/strapping items to target location (mvt 309). Handles COGI errors with retry logic.</td><td><span class="badge badge-amber">Dev SAP</span></td></tr>
+        <tr><td class="td-phase">FR-06</td><td><strong>Label printing</strong> — Prints pallet labels (qty and item) to shop-floor printers (HEBPRNP054–057) using SAP ZPPLLABEL transaction. Operator selects label count and qty per label.</td><td><span class="badge badge-amber">Dev SAP</span></td></tr>
+        <tr><td class="td-phase">FR-07</td><td><strong>Sand transfer form (SandForm)</strong> — Looks up sand stock at furnace via MB52, applies FIFO ordering via MB51, records transfer in SandTrans log and posts ZMMS2S in SAP. Supports multiple transfers per session.</td><td><span class="badge badge-purple">Dev SAP + FE</span></td></tr>
+        <tr><td class="td-phase">FR-08</td><td><strong>Online / offline mode</strong> — Toggle switches between live SAP connection and local-only logging. A catch-up (ketchup) routine replays offline records into SAP when connectivity is restored.</td><td><span class="badge badge-teal">Dev BE</span></td></tr>
+        <tr><td class="td-phase">FR-09</td><td><strong>Remote backup</strong> — All bake records and sand transfers are mirrored to SharePoint (\\US-FSP01\HEB\Common\Serialization\Archives\OvenLog.xlsx) on every save for resilience.</td><td><span class="badge badge-teal">Dev BE</span></td></tr>
+        <tr><td class="td-phase">FR-10</td><td><strong>Handling unit management</strong> — For serialized loads, creates HU batches (format YMTXXX-YYY, e.g. 5MT001-004) in SAP COP1/COWBHU, assigns production date, prints HU label.</td><td><span class="badge badge-amber">Dev SAP</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Business Rules (inferred from VBA + formulas)</div>
+    <table class="data-table">
+      <thead><tr><th style="width:60px">ID</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td class="td-phase">BR-01</td><td>Time per tube = Total bake hours ÷ unbaked qty. Stored in Sheet1 col K. Used for bake efficiency metrics.</td></tr>
+        <tr><td class="td-phase">BR-02</td><td>Sand yield rates per oven type stored in Sheet2 (kg/inch). Tolerance check: (target − actual) / actual. Variants for 130", 154", 138", 112" tube sizes.</td></tr>
+        <tr><td class="td-phase">BR-03</td><td>FIFO sand consumption: when multiple batches exist at a furnace, MB51 document numbers determine the oldest batch (lowest MBLNR = consumed first).</td></tr>
+        <tr><td class="td-phase">BR-04</td><td>Process orders validated against SAP COR3 — order must not be "complete" before confirming. If complete, operator is prompted to confirm overwrite.</td></tr>
+        <tr><td class="td-phase">BR-05</td><td>Scrap = unbaked qty − baked qty (if positive). Scrap qty and reason code (from 93-code defect list) are required in SAP COR6 AFRUD-GRUND field.</td></tr>
+        <tr><td class="td-phase">BR-06</td><td>Hamper item numbers resolved by size from reference table: 52"→134978, 58"→134977, 66"→134976, 70"→134975, 86"→134974, 110"→134908 (+ multi-pack variants).</td></tr>
+        <tr><td class="td-phase">BR-07</td><td>HU batch format: {year-digit}{month-letter}{furnace-code}{start}-{end}. Month = A(Jan)…L(Dec). e.g. 5MT001-004 = 2025, Month=May, Furnace=T, tubes 001-004.</td></tr>
+        <tr><td class="td-phase">BR-08</td><td>Source stock defaults to location 0020 (shop floor). Hamper storage defaults to 0100. Constant 147664 used for strapping MIGO line items.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 3 — PROCESS FLOW
+════════════════════════════════════════════════ -->
+<section id="s-flow" class="section">
+  <div class="section-heading">End-to-End Process Flows</div>
+  <div class="section-sub">Main bake recording workflow and sand transfer workflow.</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Main Bake Recording Workflow</div>
+      <div style="display:flex;flex-direction:column;gap:0;position:relative">
+        <!-- Steps -->
+        <div style="display:flex;flex-direction:column;gap:0">
+          <!-- each step -->
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Operator opens workbook</div><div style="font-size:11px;color:var(--text-muted)">System checks SAP connection status via Sheet2 J1 flag</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Open BakeForm / NotSerialized</div><div style="font-size:11px;color:var(--text-muted)">Operator auto-identified from Windows Environ("Username")</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">3</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Enter bake details</div><div style="font-size:11px;color:var(--text-muted)">Process order → SAP COR3 lookup → item number + description auto-fill via MM03</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">4</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Validate inputs</div><div style="font-size:11px;color:var(--text-muted)">CheckInputs: all required fields, qty confirmation dialogue (baked vs unbaked)</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">5</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Save → Local (Sheet1)</div><div style="font-size:11px;color:var(--text-muted)">Writes row to Sheet1, SAP flag=FALSE. Timestamp = Now()</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">6</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Save → Remote backup</div><div style="font-size:11px;color:var(--text-muted)">Mirrors row to OvenLog.xlsx on SharePoint UNC path</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">7</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Save → SAP (if online)</div><div style="font-size:11px;color:var(--text-muted)">COR6 step 20+40 → MIGO 261 (issue) → MIGO 309 (hamper/strapping) → COP1/COWBHU (HU) → ZPPLLABEL (labels). Sets J=TRUE on success.</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0">
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--slate);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">8</div>
+            <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Clear form / next entry</div><div style="font-size:11px;color:var(--text-muted)">Prompts "Would you like to clear the form?" — operator ready for next bake</div></div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:var(--amber-lt);border-radius:8px;font-size:11px;color:#92400e">
+          <strong>Offline path:</strong> Steps 6 & 7 are skipped. Ketchup routine later replays all rows where Sheet1 col J = FALSE.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Sand Transfer Workflow</div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Open SandForm</div><div style="font-size:11px;color:var(--text-muted)">Pre-fills last-used item/batch from SandTrans sheet last row</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Enter sand item & batch</div><div style="font-size:11px;color:var(--text-muted)">Select target furnace (NF21–NF38)</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">3</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">MB52 stock lookup</div><div style="font-size:11px;color:var(--text-muted)">Queries current sand qty at furnace location. Displays availability string (location / amount).</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">4</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">FIFO via MB51</div><div style="font-size:11px;color:var(--text-muted)">If multiple batches, queries MB51 to sort by MBLNR (document #) — lowest = oldest = consumed first.</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">5</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Operator confirms qty & source</div><div style="font-size:11px;color:var(--text-muted)">"You're about to transfer item X, batch Y, qty Z to NF##. Is this correct?"</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">6</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Post ZMMS2S + log SandTrans</div><div style="font-size:11px;color:var(--text-muted)">SAP custom transaction posts transfer. SandTrans sheet row appended. Remote backup mirrored.</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--slate);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">7</div>
+          <div><div style="font-weight:600;font-size:12px;margin-bottom:2px">Loop or close</div><div style="font-size:11px;color:var(--text-muted)">"Do you have more to transfer? Stay Open" — form persists for multiple transfers per shift.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 4 — SCREEN & ACTION MAP
+════════════════════════════════════════════════ -->
+<section id="s-screens" class="section">
+  <div class="section-heading">Screen & Action Map</div>
+  <div class="section-sub">3 screens · 6 data surfaces · 40+ distinct actions · integrations with SAP, Sheet1, Sheet2, SandTrans, OvenLog.xlsx</div>
+
+  <div class="inner-tabs">
+    <button class="inner-tab active" onclick="showInner('bakeform',this)">BakeForm (Serialized)</button>
+    <button class="inner-tab" onclick="showInner('notser',this)">NotSerialized Bake</button>
+    <button class="inner-tab" onclick="showInner('sandform',this)">SandForm</button>
+    <button class="inner-tab" onclick="showInner('sheet1',this)">Sheet1 — Bake Log</button>
+    <button class="inner-tab" onclick="showInner('sheet2',this)">Sheet2 — Reference</button>
+    <button class="inner-tab" onclick="showInner('sandtrans',this)">SandTrans — Log</button>
+  </div>
+
+  <!-- BAKEFORM -->
+  <div id="inner-bakeform" class="inner-panel">
+    <div class="card" style="margin-bottom:12px;background:var(--blue-lt);border-color:#93c5fd">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:24px">🔥</div>
+        <div><div style="font-weight:600;font-size:14px">BakeForm — "Vacuum Bake Transactions"</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Primary data entry form for serialized vacuum bake jobs. Supports up to 16 batch tubes per record. Online + Offline modes. COR6 · MIGO · MM03 · COR3 · COP1 · COWBHU · ZPPLLABEL</div>
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">
+          <span class="pill">UserForm / VBA Modal</span><span class="pill">Serialized tubes only</span><span class="pill">Online + Offline modes</span>
+        </div></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="action-table" style="min-width:700px">
+      <thead><tr><th style="width:180px">Control / Action</th><th>What it does</th><th style="width:180px">Data captured</th><th style="width:160px">Integrates with</th></tr></thead>
+      <tbody>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>TextBox1 — Pallet Card #</td><td>Operator types physical pallet card number. Reads last pallet data from clsPalletCardData, pre-fills batch numbers from serialized tube log. Sets internal card reference for all SAP calls.</td><td>palletCard (String)</td><td><span class="int-badge ib-sheet">Sheet1 col C</span><span class="int-badge ib-remote">SerializedTubeLog.xlsx</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>ComboBox1 — Bake Oven</td><td>Dropdown of 10 ovens (NV0A–NV0J). Sets oven ID for Sheet1 row write and SAP COR6 equipment field (ARBPL). Determines default label printer assignment.</td><td>oven (String, e.g. "NV0F")</td><td><span class="int-badge ib-sheet">Sheet1 col A</span><span class="int-badge ib-sheet">Sheet2 oven map</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>TextBox2 — Bake Hours</td><td>Actual soak hours (excluding ramp-up/cool-down). Used to calculate time-per-tube (hours ÷ unbaked qty). Passed to SAP COR6 step 40 as activity time.</td><td>bakeHours (Double); drives col I & col K</td><td><span class="int-badge ib-sheet">Sheet1 col I, K</span><span class="int-badge ib-sap">SAP COR6 step 40</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>procOrdNum — Process Order</td><td>Calls clsCOR3.getDetails → SAP COR3 lookup. Validates order exists, retrieves item#, UOM, planned qty, order type. Warns if type is not "Baked" or order is complete. Auto-populates BakedItemNum and description label.</td><td>procOrdNum (Long); item, UOM, desc from SAP</td><td><span class="int-badge ib-sap">SAP COR3</span><span class="int-badge ib-sheet">Sheet1 col E, F, G</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>BakedItemNum</td><td>Calls clsMaterial.getDescription via SAP MM03 to retrieve baked item description. Sets bakedItemDesc caption. Confirms operator has correct baked product code.</td><td>bakedItemNumber (Long); desc string from MM03</td><td><span class="int-badge ib-sap">SAP MM03</span><span class="int-badge ib-sheet">Sheet1 col F, G</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>UnBakedItemNum</td><td>Operator enters unbaked item number. System calls MM03, validates it is NOT a baked item. If baked item entered by mistake, shows error and clears field.</td><td>unBakedItemNum (Long); unbaked description</td><td><span class="int-badge ib-sap">SAP MM03</span><span class="int-badge ib-sheet">Sheet1 col L, M</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>Batch1–16 TextBoxes</td><td>Up to 16 batch numbers. AfterUpdate calls checkBatches for duplicates. Double-click on Batch1 prompts starting batch + tube count, auto-generates sequential HU batch numbers (format: YMTXXX-YYY).</td><td>batchArray (String[16])</td><td><span class="int-badge ib-sheet">Sheet1 col H</span><span class="int-badge ib-sap">SAP COR6 batch</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>TextBox6 — Baked Qty</td><td>Tubes that came out successfully baked. Triggers confirmation dialogue: "Your unbaked qty is X, baked qty is Y. Is this correct?" before save proceeds.</td><td>bakedQty (Integer)</td><td><span class="int-badge ib-sheet">Sheet1 col N</span><span class="int-badge ib-sap">SAP COR6 yield qty</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>ComboBox2 — Hamper(s)</td><td>Dropdown of 18 hamper sizes. Resolves SAP item number from Sheet2 reference table. Populates hamper item, qty, location (0100), movement type (261 or 309). Up to 2 hampers supported.</td><td>hamperItem, hamperQty, hamperLoc, hamperMvtType</td><td><span class="int-badge ib-sheet">Sheet2 hamper table</span><span class="int-badge ib-sheet">Sheet1 col Q–X</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>CommandButton1 — Save</td><td>Master save action. Validates all inputs (CheckInputs), confirms qty. Writes row to Sheet1. Saves remote backup to OvenLog.xlsx. If online: COR6 step20+40, MIGO 261, MIGO 309, COP1/COWBHU HU create, ZPPLLABEL print. Sets J=TRUE on success.</td><td>Full row: all fields + timestamp + SAP flag</td><td><span class="int-badge ib-sheet">Sheet1</span><span class="int-badge ib-remote">OvenLog.xlsx</span><span class="int-badge ib-sap">COR6 · MIGO · COP1 · ZPPLLABEL</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>CommandButton2 — Clear</td><td>Resets entire form: clears all TextBoxes, 16 batch inputs, both ComboBoxes, hides scrap/comment fields, resets label qty fields. Prompts confirmation post-save.</td><td>No data — form reset only</td><td><span class="int-badge ib-ui">Form controls only</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>CommandButton4 — Print Labels Only</td><td>Reprint path. Prompts for process order via InputBox → COR3 lookup → ZPPLLABEL print. Used for reprints or label quantity corrections.</td><td>procOrder, numTickets, qtyEach, UOM</td><td><span class="int-badge ib-sap">SAP COR3 + ZPPLLABEL</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-toggle">Toggle</span>OfflineMode Button</td><td>Turns button yellow in offline mode. Writes "Offline" or "Online" to Sheet2 cell J1. All subsequent SAP-touching functions check this flag before executing GUI scripting.</td><td>Sheet2 J1 = "Online" / "Offline"</td><td><span class="int-badge ib-sheet">Sheet2 J1</span><span class="int-badge ib-sap">Gates all SAP calls</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- NOT SERIALIZED -->
+  <div id="inner-notser" class="inner-panel" style="display:none">
+    <div class="card" style="margin-bottom:12px;background:var(--green-lt);border-color:#86efac">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:24px">📦</div>
+        <div><div style="font-weight:600;font-size:14px">NotSerialized — "Non-Serialized Bake Transaction"</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Simplified bake form for bulk (non-serialized) tube lots. No individual tube tracking, no HU creation. Same Sheet1 log as BakeForm. COR6 · MIGO · MM03 · COR3</div></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="action-table" style="min-width:700px">
+      <thead><tr><th style="width:180px">Control / Action</th><th>What it does</th><th style="width:180px">Data captured</th><th style="width:160px">Integrates with</th></tr></thead>
+      <tbody>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>procOrdNum</td><td>Triggers SAP COR3 lookup. Validates order and retrieves baked item#, description, UOM. Warns if order type is "Draw" (wrong type) and requests baked order number instead.</td><td>procOrdNum (Long); auto-fills item & description</td><td><span class="int-badge ib-sap">SAP COR3</span><span class="int-badge ib-sheet">Sheet1 col E–G</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">Change</span>TextBox3 — Batch Number</td><td>Single batch input (vs 16 in BakeForm). Stored uppercased in Sheet1 col H. No sequential auto-fill — bulk lots don't need individual tube serials.</td><td>batch (String, uppercased)</td><td><span class="int-badge ib-sheet">Sheet1 col H</span><span class="int-badge ib-sap">SAP COR6 batch</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>TextBox7 — Bake Hours</td><td>Tooltip: "Actual hours soaking, not ramp up or cool down." Stored in Sheet1 col I. Divided by unbaked qty for time-per-tube metric in col K.</td><td>bakeHours (Double)</td><td><span class="int-badge ib-sheet">Sheet1 col I, K</span><span class="int-badge ib-sap">SAP COR6 activity time</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">Change</span>TextBox9 — Unbaked Qty</td><td>Number of unbaked pieces loaded. If scrap exists (unbaked − baked &gt; 0), ComboBox3 (scrap code from 93-code defect list) becomes mandatory before save.</td><td>unbakedQty (Integer); enables scrap code field</td><td><span class="int-badge ib-sheet">Sheet1 col O</span><span class="int-badge ib-sap">SAP COR6 scrap</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>ComboBox3 — Scrap Code</td><td>Activated when baked qty &lt; unbaked qty. Populated from Sheet2 defect code list (93 codes: BUBBL, CRAK, FLAT, TRAN etc). Selected code passed to SAP COR6 AFRUD-GRUND scrap reason field.</td><td>scrapCode (4-char, e.g. "CRAK")</td><td><span class="int-badge ib-sheet">Sheet2 defect codes</span><span class="int-badge ib-sap">SAP COR6 GRUND</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>TextBox8 — Operator</td><td>Auto-populated from Windows Environ("Username") on form activate. Operator can override. Stored in Sheet1 col D and passed to SAP COR6 AFRUD-PERNR personnel field.</td><td>operator (String, Windows username)</td><td><span class="int-badge ib-sheet">Sheet1 col D</span><span class="int-badge ib-sap">SAP COR6 PERNR</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>CommandButton1 — Save</td><td>Validates inputs, shows qty-confirmation dialogue. Writes row to Sheet1 (timestamp = Now()). Saves remote backup. If online: COR6 step 20+40, MIGO 261 goods issue, MIGO 309 hamper/strapping. No HU creation (non-serialized path).</td><td>Full row: all fields + timestamp + SAP flag</td><td><span class="int-badge ib-sheet">Sheet1</span><span class="int-badge ib-remote">OvenLog.xlsx</span><span class="int-badge ib-sap">COR6 · MIGO 261 · MIGO 309</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>numLbl / QTYperLbl</td><td>Three fields controlling label print quantity. numLbl = number of labels. QTYperLbl = quantity on each. Confirms: "You are about to print N labels with QTY X each" before printing via ZPPLLABEL.</td><td>numTickets, qtyEach, UOM</td><td><span class="int-badge ib-sap">SAP ZPPLLABEL</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SANDFORM -->
+  <div id="inner-sandform" class="inner-panel" style="display:none">
+    <div class="card" style="margin-bottom:12px;background:var(--amber-lt);border-color:#fcd34d">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:24px">🪨</div>
+        <div><div style="font-weight:600;font-size:14px">SandForm — "Sand Transfer"</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Standalone form for quartz sand feedstock transfers from warehouse (0015/0100) to furnace locations (NF21–NF38). MB52 · MB51 · ZMMS2S</div></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="action-table" style="min-width:700px">
+      <thead><tr><th style="width:180px">Control / Action</th><th>What it does</th><th style="width:180px">Data captured</th><th style="width:160px">Integrates with</th></tr></thead>
+      <tbody>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Activate</span>UserForm_Activate</td><td>On form open, reads last-used sand item# and batch from SandTrans sheet (second-to-last row) to pre-populate input fields. Saves handler from retyping same sand item across multiple transfers per shift.</td><td>lastSand (item#), lastBatch pre-filled</td><td><span class="int-badge ib-sheet">SandTrans col A, B (last row)</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>ComboBox1 — Sand Item #</td><td>On update, triggers MB52 SAP query to check stock at selected furnace location. Builds availability summary string showing location, batch, and quantity. Displayed in status label on form.</td><td>sandItemNum (Long); triggers MB52</td><td><span class="int-badge ib-sap">SAP MB52</span><span class="int-badge ib-sheet">SandTrans col A</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-change">AfterUpdate</span>ComboBox1 — Furnace</td><td>Second ComboBox selects destination furnace (NF21–NF38). Calls useMB52 to get current stock. If multiple batches exist, calls useMB51 to determine FIFO order by SAP document number (MBLNR).</td><td>targetFurnace (String, e.g. "NF21")</td><td><span class="int-badge ib-sap">SAP MB52 + MB51 (FIFO)</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto</span>Sand level check</td><td>After MB52 query, clsFIFO.sandAtLoc calculates total sand at furnace. If below threshold or no stock found, displays warning. Availability string (Location / Amount pairs) shown to operator.</td><td>thisSandLevel (Decimal); StatusWindow label updated</td><td><span class="int-badge ib-sap">SAP MB52</span><span class="int-badge ib-ui">StatusWindow label</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>CommandButton1 — Transfer</td><td>Main transfer action. Prompts "Which location to transfer from?" and "How much to transfer?" with MB52 stock shown. Confirms transfer details, posts ZMMS2S in SAP, logs to SandTrans sheet and remote OvenLog. Offline: logs locally only.</td><td>sandItemNum, batch, qty, fromLoc, toLoc; SAP success flag</td><td><span class="int-badge ib-sheet">SandTrans (new row)</span><span class="int-badge ib-remote">OvenLog.xlsx</span><span class="int-badge ib-sap">SAP ZMMS2S</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>Loop — "More to transfer?"</td><td>After each successful transfer, MsgBox asks "Do you have more to transfer? Stay Open". If Yes: form stays open, clears qty field, pre-fills same item/batch. If No: form closes.</td><td>Controls form lifecycle; no additional data</td><td><span class="int-badge ib-ui">Form lifecycle</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SHEET1 -->
+  <div id="inner-sheet1" class="inner-panel" style="display:none">
+    <div class="card" style="margin-bottom:12px;background:var(--green-lt);border-color:#86efac">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:24px">📋</div>
+        <div><div style="font-weight:600;font-size:14px">Sheet1 — Bake Log (primary data store)</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">1,650+ rows. 44 columns. Written by BakeForm and NotSerialized. Read by ketchup (SAP replay) and saveRemoteData (backup).</div></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="action-table" style="min-width:700px">
+      <thead><tr><th style="width:180px">Control / Action</th><th>What it does</th><th style="width:220px">Data captured / columns</th><th style="width:160px">Integrates with</th></tr></thead>
+      <tbody>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto-write</span>Row append on Save</td><td>Every form Save writes one new row via nextEmptyRow(Sheet1,"A"). Writes: oven (A), timestamp Now() (B), pallet card (C), operator (D), process order (E), item# (F), description (G), batch (H), total hours (I), SAP flag=False (J), time-per-tube (K), unbaked item (L), unbaked desc (M), baked qty (N), unbaked qty (O), comments (P), hamper item (Q), hamper qty (R), hamper loc (S), hamper mvt (T), strapping num (U), strapping qty (V), strapping loc (W), strapping mvt (X), source loc (Y).</td><td>Cols A–Y (25 core cols); label cols Z–AR</td><td><span class="int-badge ib-sheet">Sheet1</span><span class="int-badge ib-remote">Mirrored to OvenLog.xlsx</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto</span>Col J — SAP Flag</td><td>Written FALSE on row creation. Set TRUE only after saveToSAP completes all SAP postings (COR6 + MIGO) successfully. Ketchup routine scans col J for FALSE rows to replay. Primary mechanism for offline-to-online reconciliation.</td><td>Boolean in col J</td><td><span class="int-badge ib-sap">Read by ketchup routine</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-click">Click</span>Ketchup (catch-up routine)</td><td>Triggered manually from Module1. Prompts "What row would you like to begin with?" then loops Sheet1. For each row where col J = FALSE: calls saveToSAP(rowNum) — full COR6 + MIGO sequence. Asks "Would you like to stop code?" after each row. Sets J=TRUE on success.</td><td>Reads cols A–Y per row; writes J=TRUE</td><td><span class="int-badge ib-sap">COR6 · MIGO · ZPPLLABEL</span><span class="int-badge ib-sheet">Sheet1 col J</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto</span>saveRemoteData</td><td>Called after every form Save. Opens OvenLog.xlsx on SharePoint UNC path. Copies all column values cell-by-cell to matching row. Closes and saves OvenLog.xlsx. Provides backup independent of SAP posting status.</td><td>All cols A–AR mirrored</td><td><span class="int-badge ib-remote">\\US-FSP01\HEB\...\OvenLog.xlsx</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto</span>LogEvent</td><td>Appends a CSV line to TransactionLog.csv after every significant action. Format: date, computerName, "Draw Application", username, palletCard, procOrder. Audit trail independent of Sheet1.</td><td>Timestamp, computerName, username, palletCard, procOrder</td><td><span class="int-badge ib-remote">TransactionLog.csv on SharePoint</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SHEET2 -->
+  <div id="inner-sheet2" class="inner-panel" style="display:none">
+    <div class="card" style="margin-bottom:12px;background:var(--purple-lt);border-color:#c4b5fd">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:24px">📚</div>
+        <div><div style="font-weight:600;font-size:14px">Sheet2 — Reference Data (lookup tables)</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Read-only at runtime. 6 embedded lookup tables. 93 defect codes · 10 oven IDs · 18 hamper sizes · 4 printer locations · sand yield rates · online/offline flag (J1)</div></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="action-table" style="min-width:700px">
+      <thead><tr><th style="width:180px">Table / Cell</th><th>What it holds and how it is used</th><th style="width:120px">Location</th><th style="width:180px">Used by</th></tr></thead>
+      <tbody>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Read</span>Defect / scrap codes</td><td>93 quality defect codes with full name (col A), 4-char code (col B), and furnace zone (col C, e.g. NF21–NF38). Populates ComboBox3 in NotSerialized form. Selected code transmitted to SAP COR6 AFRUD-GRUND scrap reason.</td><td>A1:C93</td><td><span class="int-badge ib-ui">NotSerialized ComboBox3</span><span class="int-badge ib-sap">SAP COR6 GRUND</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Read</span>Oven ID map</td><td>Maps oven letter (A–J) to oven code (NV0A–NV0J). 10 entries. Populates BakeForm ComboBox1. Used to derive equipment code for SAP COR6 ARBPL (work centre) field.</td><td>G1:H10</td><td><span class="int-badge ib-ui">BakeForm ComboBox1</span><span class="int-badge ib-sap">SAP COR6 ARBPL</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Read</span>Hamper item numbers</td><td>18 hamper types mapped to SAP item numbers. Size names (e.g. "66\" EMPTY Hamper") mapped to item#s (e.g. 134976). Includes 8-pack, 4-pack, cullet variants. Read when operator selects hamper to resolve SAP item# for MIGO 261/309 line items.</td><td>G13:H30</td><td><span class="int-badge ib-ui">ComboBox2</span><span class="int-badge ib-sap">SAP MIGO 261/309</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Read</span>Printer locations</td><td>4 printers: Oven Area→HEBPRNP055 (Yellow), Lower Shack→HEBPRNP054 (Yellow), PPE Machine→HEBPRNP057 (White), Upper Shack→HEBPRNP056 (Yellow). Read by ComboBox5 in all forms for label printer selection.</td><td>D35:F38</td><td><span class="int-badge ib-ui">ComboBox5 (printer)</span><span class="int-badge ib-sap">SAP ZPPLLABEL P_PRINT</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Read</span>Sand yield rates</td><td>Target sand consumption rates (kg/inch) by tube dimension and furnace type. Columns for 130", 154", 138", 112" sizes. Formula cells compute actual vs target deviation %. Used in yield analysis.</td><td>K6:U10</td><td><span class="int-badge ib-sheet">Sheet2 internal yield analysis</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-toggle">Read/Write</span>Online/Offline flag — J1</td><td>Single cell storing "Online" or "Offline". Written by OfflineMode toggle in all forms. Read at start of every SAP-touching function to decide whether to execute SAP GUI scripting or skip it. Central mode switch for the entire application.</td><td>J1 (single cell)</td><td><span class="int-badge ib-ui">All form toggles (write)</span><span class="int-badge ib-sap">Gates all SAP calls (read)</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SANDTRANS -->
+  <div id="inner-sandtrans" class="inner-panel" style="display:none">
+    <div class="card" style="margin-bottom:12px;background:var(--amber-lt);border-color:#fcd34d">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:24px">🪨</div>
+        <div><div style="font-weight:600;font-size:14px">SandTrans — Sand Transfer Log</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">147 rows. 6 columns. Written by SandForm. Mirrored to OvenLog.xlsx. Read on form open to pre-fill last-used item/batch.</div></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="action-table" style="min-width:700px">
+      <thead><tr><th style="width:180px">Control / Action</th><th>What it does</th><th style="width:200px">Data captured / columns</th><th style="width:160px">Integrates with</th></tr></thead>
+      <tbody>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto-write</span>Row append on Transfer</td><td>SandForm writes one row per transfer via nextEmptyRow(SandTrans,"A"). Six columns: sand item# (A), batch uppercased (B), quantity as decimal (C), source location (D), destination furnace (E), inSAP flag (F). Complete audit trail of all sand movements.</td><td>A: item | B: batch | C: qty | D: fromLoc | E: toLoc | F: inSAP</td><td><span class="int-badge ib-sheet">SandTrans (written by SandForm)</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto-read</span>Pre-fill last entry</td><td>SandForm_Activate reads last row of SandTrans (nextEmptyRow–1) to retrieve lastSand and lastBatch. Pre-populates ComboBox1 so handler doesn't retype same sand item for every transfer in a shift.</td><td>Reads cols A and B (last row)</td><td><span class="int-badge ib-ui">SandForm ComboBox1 pre-fill</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Auto</span>saveRemoteSandTransfers</td><td>After each local write, opens OvenLog.xlsx on SharePoint UNC. Locates SandTrans tab. Copies 6-column row to matching row in remote file. Saves and closes. Ensures sand transfer data survives local workbook corruption.</td><td>Same 6 columns mirrored</td><td><span class="int-badge ib-remote">OvenLog.xlsx SandTrans tab</span></td></tr>
+        <tr><td class="col-action"><span class="ttag ttag-auto">Read</span>Offline reconciliation (col F)</td><td>Col F (inSAP flag) marks whether the transfer was posted to SAP at time of recording. Transfers where F=False are offline transfers that may need manual SAP entry. Used by supervisor for reconciliation review.</td><td>Col F (Boolean) — reconciliation indicator</td><td><span class="int-badge ib-ui">Supervisor review only</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 5 — RISKS & NFRs
+════════════════════════════════════════════════ -->
+<section id="s-risks" class="section">
+  <div class="section-heading">Non-Functional Requirements & Risks</div>
+  <div class="section-sub">Performance expectations, security gaps, data integrity patterns, and maintainability risks.</div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-title">Performance</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>Ketchup routine loops all offline rows — can be slow on large backlogs. Sheet1 has 1,650+ rows.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>SAP GUI scripting adds 10–30 seconds per record depending on SAP response time. COR6 step 20+40 is the heaviest call.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--blue)"></div><div>Remote backup to SharePoint UNC adds network delay per save — handled with user-visible "Saving, please wait" message.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Security & Access Control</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--red)"></div><div>No in-application authentication. Access control relies entirely on Windows file permissions and SAP user login.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--red)"></div><div>Operator identity captured from Environ("Username") — can be spoofed on a shared PC.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>VBA code not password-protected (binary readable). SAP credentials not embedded — uses existing SAP GUI session.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Maintainability Risks</div>
+    <table class="data-table">
+      <thead><tr><th>Risk</th><th style="width:80px">Severity</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Hardcoded file paths</strong></td><td class="risk-hi">High</td><td>Both local dev paths (C:\Users\PARKINSONJ\OneDrive...) and network paths (\\US-FSP01\...) are hardcoded in Module1 with a dual-path If switch — path changes require VBA edits.</td></tr>
+        <tr><td><strong>SAP screen path fragility</strong></td><td class="risk-hi">High</td><td>SAP GUI scripting uses hard string IDs (e.g. wnd[0]/usr/tabsTABSTRIP_5115/tabpKOWE/...). Any SAP UI upgrade or customisation change will silently break automation.</td></tr>
+        <tr><td><strong>Hardcoded employee ID</strong></td><td class="risk-med">Med</td><td>Employee number "97747" hardcoded in clsCOR6 for the AFRUD-PERNR field. Will fail when employee rolls off.</td></tr>
+        <tr><td><strong>Single-developer origin</strong></td><td class="risk-med">Med</td><td>Code references developer's local OneDrive path, Debug.Print statements, and TODO comments. Bus factor = 1.</td></tr>
+        <tr><td><strong>No persistent error logging</strong></td><td class="risk-med">Med</td><td>StdErrorHandler shows MsgBox but does not write errors to a persistent log. Intermittent SAP failures are undetectable after the fact.</td></tr>
+        <tr><td><strong>SAP Logon startup fragility</strong></td><td class="risk-lo">Low</td><td>startNetweaver uses SendKeys with fixed-position UP arrow presses to navigate SAP Logon list — breaks if list order changes.</td></tr>
+        <tr><td><strong>Sheet2 column coupling</strong></td><td class="risk-lo">Low</td><td>Hamper item#s, oven codes, defect codes, yield rates, printer names all live in Sheet2 with no named ranges. Column position changes break all VBA references.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Data Integrity Strengths</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>Qty confirmation dialogue shown before SAP post ("Your unbaked qty is X, baked qty is Y. Is this correct?").</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>Dual-write: local sheet first, remote backup second, SAP third — ensures local record exists even if network or SAP fails.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--green)"></div><div>Col J SAP flag provides clear reconciliation audit — FALSE rows are visually identifiable for supervisor review.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Data Integrity Gaps</div>
+      <div class="item-list">
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>No rollback: if SAP posting succeeds but local write fails, SAP flag stays FALSE — risk of duplicate posting on retry.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>Offline records rely on ketchup routine to replay — if workbook is closed without running ketchup, records may never reach SAP.</div></div>
+        <div class="item-row"><div class="item-dot" style="background:var(--amber)"></div><div>No transaction locking — two operators saving simultaneously could cause row collision on nextEmptyRow lookup.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 6 — WBS
+════════════════════════════════════════════════ -->
+<section id="s-wbs" class="section">
+  <div class="section-heading">Work Breakdown Structure</div>
+  <div class="section-sub">57 work packages across 7 phases. Estimates in working days (1 day = 8 hours).</div>
+
+  <div class="grid-4" style="margin-bottom:16px">
+    <div class="metric-tile"><div class="m-label">Total est. days</div><div class="m-val" style="color:var(--blue)">287</div><div class="m-sub">Min 201 · Max 396</div></div>
+    <div class="metric-tile"><div class="m-label">Work packages</div><div class="m-val" style="color:var(--teal)">57</div><div class="m-sub">Across 7 phases</div></div>
+    <div class="metric-tile"><div class="m-label">Team size</div><div class="m-val" style="color:var(--purple)">11</div><div class="m-sub">Roles (8–9 people)</div></div>
+    <div class="metric-tile"><div class="m-label">Duration</div><div class="m-val" style="color:var(--amber)">24 wks</div><div class="m-sub">~6 calendar months</div></div>
+  </div>
+
+  <div style="overflow-x:auto">
+  <table class="data-table" style="min-width:760px">
+    <thead><tr><th style="width:60px">WBS ID</th><th>Task</th><th style="width:80px">Est. Days</th><th style="width:75px">Min Days</th><th style="width:75px">Max Days</th><th style="width:90px">Complexity</th><th style="width:100px">Owner</th></tr></thead>
+    <tbody id="wbs-tbody"></tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 7 — RESOURCE PLAN
+════════════════════════════════════════════════ -->
+<section id="s-resources" class="section">
+  <div class="section-heading">Resource Plan & Loading</div>
+  <div class="section-sub">11 roles loaded in 0.25 FTE increments across 12 sprints (24 weeks). 1.0 = full time.</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Loading Legend</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#f8fafc;border:1px solid #e2e8f0"></div>0.00 — Not assigned</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#dbeafe"></div>0.25 — 2 hrs/day (supporting)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#bfdbfe"></div>0.50 — 4 hrs/day (part time)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#ccfbf1"></div>0.75 — 6 hrs/day (near full)</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#dcfce7;border:1px solid #86efac"></div>1.00 — 8 hrs/day (full time)</div>
+    </div>
+  </div>
+
+  <div class="resource-grid">
+  <table class="res-table" style="min-width:1000px">
+    <thead>
+      <tr>
+        <th class="rt-left" style="width:100px">Role</th>
+        <th class="rt-left" style="width:180px">Name / Skill</th>
+        <th style="width:70px">$/day</th>
+        <th style="width:65px">Total Days</th>
+        <th>S1<br><span style="font-size:9px;opacity:.6">Wk1-2</span></th>
+        <th>S2<br><span style="font-size:9px;opacity:.6">Wk3-4</span></th>
+        <th>S3<br><span style="font-size:9px;opacity:.6">Wk5-6</span></th>
+        <th>S4<br><span style="font-size:9px;opacity:.6">Wk7-8</span></th>
+        <th>S5<br><span style="font-size:9px;opacity:.6">Wk9-10</span></th>
+        <th>S6<br><span style="font-size:9px;opacity:.6">Wk11-12</span></th>
+        <th>S7<br><span style="font-size:9px;opacity:.6">Wk13-14</span></th>
+        <th>S8<br><span style="font-size:9px;opacity:.6">Wk15-16</span></th>
+        <th>S9<br><span style="font-size:9px;opacity:.6">Wk17-18</span></th>
+        <th>S10<br><span style="font-size:9px;opacity:.6">Wk19-20</span></th>
+        <th>S11<br><span style="font-size:9px;opacity:.6">Wk21-22</span></th>
+        <th>S12<br><span style="font-size:9px;opacity:.6">Wk23-24</span></th>
+        <th style="width:90px">Total Cost</th>
+      </tr>
+    </thead>
+    <tbody id="res-tbody"></tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 8 — SCHEDULE
+════════════════════════════════════════════════ -->
+<section id="s-schedule" class="section">
+  <div class="section-heading">Project Schedule — 24 Weeks</div>
+  <div class="section-sub">Gantt view. Each column = 1 week. Sprint boundaries every 2 columns. ◆ = milestone.</div>
+
+  <div class="legend" style="margin-bottom:16px">
+    <div class="legend-item"><div class="legend-swatch" style="background:#2563eb"></div>Phase 1: Initiation</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#0d9488"></div>Phase 2: .NET Backend</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#7c3aed"></div>Phase 3: React Frontend</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#d97706"></div>Phase 4: SAP Integration</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#16a34a"></div>Phase 5: Data Migration</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#dc2626"></div>Phase 6: Testing & QA</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#475569"></div>Phase 7: Deployment</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#0f1923"></div>◆ Milestone</div>
+  </div>
+
+  <div class="gantt-wrap">
+  <table class="gantt-table" style="min-width:1100px">
+    <thead>
+      <tr>
+        <th class="gt-phase" style="width:46px">Phase</th>
+        <th class="gt-label" style="width:280px;text-align:left">Task</th>
+        <th>W1</th><th>W2</th><th>W3</th><th>W4</th><th>W5</th><th>W6</th>
+        <th>W7</th><th>W8</th><th>W9</th><th>W10</th><th>W11</th><th>W12</th>
+        <th>W13</th><th>W14</th><th>W15</th><th>W16</th><th>W17</th><th>W18</th>
+        <th>W19</th><th>W20</th><th>W21</th><th>W22</th><th>W23</th><th>W24</th>
+      </tr>
+    </thead>
+    <tbody id="gantt-tbody"></tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     SECTION 9 — EFFORT & ROLES
+════════════════════════════════════════════════ -->
+<section id="s-roles" class="section">
+  <div class="section-heading">Effort Summary & Roles</div>
+  <div class="section-sub">Team structure, responsibilities, and effort distribution across phases.</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Effort by Phase</div>
+    <div class="effort-summary">
+      <div class="effort-bars" id="effort-bars"></div>
+      <div>
+        <div class="card-title" style="margin-bottom:8px">Phase breakdown (est. days)</div>
+        <table class="data-table" style="font-size:12px">
+          <thead><tr><th>Phase</th><th style="width:80px;text-align:center">Est.</th><th style="width:70px;text-align:center">Min</th><th style="width:70px;text-align:center">Max</th><th style="width:60px;text-align:center">%</th></tr></thead>
+          <tbody id="phase-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Team Roles & Responsibilities</div>
+    <table class="data-table">
+      <thead><tr><th style="width:140px">Role</th><th>Responsibilities</th><th style="width:70px;text-align:center"># Res.</th><th style="width:90px;text-align:center">Est. Days</th><th style="width:100px">Key Phases</th></tr></thead>
+      <tbody id="roles-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">Key Assumptions</div>
+    <div class="item-list" id="assumptions-list"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ── NAV ──────────────────────────────────────────────────────────
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.top-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function showInner(id, btn) {
+  document.querySelectorAll('.inner-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.inner-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('inner-' + id).style.display = 'block';
+  btn.classList.add('active');
+}
+
+// ── WBS DATA ─────────────────────────────────────────────────────
+const wbsData = [
+  {phase:"1",title:"INITIATION & ARCHITECTURE",color:"#2563eb"},
+  {id:"1.1",task:"Project kick-off, stakeholder alignment & scope sign-off",est:3,min:2,max:4,cplx:"Low",owner:"PM"},
+  {id:"1.2",task:"Current-state VBA & SAP integration analysis",est:5,min:4,max:7,cplx:"Medium",owner:"SA"},
+  {id:"1.3",task:"Solution architecture design (React + .NET + SAP RFC layer)",est:5,min:4,max:8,cplx:"High",owner:"SA"},
+  {id:"1.4",task:"Tech stack decisions, repo setup, CI/CD pipeline skeleton",est:3,min:2,max:4,cplx:"Medium",owner:"DevOps"},
+  {id:"1.5",task:"Database design (bake log, sand trans, reference data, audit)",est:4,min:3,max:5,cplx:"Medium",owner:"BA / Dev"},
+  {id:"1.6",task:"API contract definition (OpenAPI / Swagger spec)",est:3,min:2,max:4,cplx:"Medium",owner:"SA"},
+  {id:"1.7",task:"UI/UX wireframes & prototype review (3 screens)",est:5,min:3,max:7,cplx:"Medium",owner:"UI/UX"},
+  {id:"1.8",task:"Sprint planning & backlog grooming",est:2,min:1,max:3,cplx:"Low",owner:"PM"},
+  {phase:"2",title:"BACKEND — .NET API",color:"#0d9488"},
+  {id:"2.1",task:"Project scaffolding (.NET 8 Web API, EF Core, solution structure)",est:2,min:1,max:3,cplx:"Low",owner:"Dev BE"},
+  {id:"2.2",task:"Authentication & authorisation (Windows AD / LDAP integration)",est:5,min:4,max:7,cplx:"High",owner:"Dev BE"},
+  {id:"2.3",task:"Reference data API (ovens, hampers, defect codes, printers, yield rates)",est:4,min:3,max:5,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.4",task:"Bake record CRUD API (create, read, update, SAP-flag management)",est:6,min:5,max:8,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.5",task:"Sand transfer CRUD API",est:4,min:3,max:6,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.6",task:"Offline queue service (store-and-forward when SAP unavailable)",est:6,min:5,max:8,cplx:"High",owner:"Dev BE"},
+  {id:"2.7",task:"Audit log & event sourcing (replaces LogEvent CSV)",est:4,min:3,max:5,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.8",task:"Remote backup service (replaces OvenLog.xlsx sync)",est:3,min:2,max:4,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.9",task:"Label print API (wraps SAP ZPPLLABEL / network printer)",est:4,min:3,max:6,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.10",task:"Ketchup (SAP replay) background service",est:5,min:4,max:7,cplx:"High",owner:"Dev BE"},
+  {id:"2.11",task:"Unit tests — backend (≥80% coverage target)",est:5,min:4,max:7,cplx:"Medium",owner:"Dev BE"},
+  {id:"2.12",task:"API documentation & Swagger finalisation",est:2,min:1,max:3,cplx:"Low",owner:"Dev BE"},
+  {phase:"3",title:"FRONTEND — REACT",color:"#7c3aed"},
+  {id:"3.1",task:"React project setup (Vite, TypeScript, component library, routing)",est:2,min:1,max:3,cplx:"Low",owner:"Dev FE"},
+  {id:"3.2",task:"Design system / shared components (form fields, badges, tables, toasts)",est:5,min:4,max:7,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.3",task:"BakeForm screen — Serialized (all 13 fields, toggle buttons, SAP lookups)",est:8,min:6,max:12,cplx:"High",owner:"Dev FE"},
+  {id:"3.4",task:"BakeForm screen — Non-Serialized (12 fields, scrap code, label print)",est:6,min:5,max:9,cplx:"High",owner:"Dev FE"},
+  {id:"3.5",task:"SandForm screen (MB52 stock display, FIFO indicator, transfer flow)",est:5,min:4,max:7,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.6",task:"Bake Log view (filterable table, SAP flag status, pagination)",est:4,min:3,max:6,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.7",task:"Reference data admin screen (hampers, printers, oven map, defect codes)",est:4,min:3,max:6,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.8",task:"Online / offline mode indicator & queue status panel",est:3,min:2,max:5,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.9",task:"Label print flow (label count, qty per label, printer selector)",est:3,min:2,max:4,cplx:"Low",owner:"Dev FE"},
+  {id:"3.10",task:"Material spec viewer (OD/ID/wall display from SAP MM03)",est:3,min:2,max:4,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.11",task:"Responsive layout & accessibility (keyboard nav, screen reader)",est:3,min:2,max:5,cplx:"Medium",owner:"Dev FE"},
+  {id:"3.12",task:"Unit & component tests (React Testing Library, ≥70% coverage)",est:5,min:4,max:7,cplx:"Medium",owner:"Dev FE"},
+  {phase:"4",title:"SAP INTEGRATION LAYER",color:"#d97706"},
+  {id:"4.1",task:"SAP RFC/BAPI connectivity setup (.NET SAP Connector / NCo 3.x)",est:4,min:3,max:6,cplx:"High",owner:"Dev SAP"},
+  {id:"4.2",task:"COR3 — Process order lookup service",est:4,min:3,max:6,cplx:"Medium",owner:"Dev SAP"},
+  {id:"4.3",task:"MM03 — Material description & spec retrieval service",est:4,min:3,max:6,cplx:"Medium",owner:"Dev SAP"},
+  {id:"4.4",task:"COR6 — Step 20 & Step 40 confirmation posting service",est:8,min:6,max:12,cplx:"High",owner:"Dev SAP"},
+  {id:"4.5",task:"MIGO — Goods movement posting (261, 309) service",est:6,min:5,max:9,cplx:"High",owner:"Dev SAP"},
+  {id:"4.6",task:"MB52 — Warehouse stock query service",est:4,min:3,max:6,cplx:"Medium",owner:"Dev SAP"},
+  {id:"4.7",task:"MB51 — Material document FIFO lookup service",est:4,min:3,max:6,cplx:"Medium",owner:"Dev SAP"},
+  {id:"4.8",task:"ZMMS2S — Custom sand transfer transaction service",est:5,min:4,max:7,cplx:"High",owner:"Dev SAP"},
+  {id:"4.9",task:"COP1 / COWBHU — Handling unit creation service",est:6,min:5,max:9,cplx:"High",owner:"Dev SAP"},
+  {id:"4.10",task:"SAP error handling, retry logic & COGI fallback",est:5,min:4,max:7,cplx:"High",owner:"Dev SAP"},
+  {id:"4.11",task:"SAP integration tests (sandbox environment)",est:6,min:5,max:9,cplx:"High",owner:"Dev SAP"},
+  {phase:"5",title:"DATA MIGRATION",color:"#16a34a"},
+  {id:"5.1",task:"Data profiling — Sheet1, SandTrans, Sheet2 reference tables",est:3,min:2,max:4,cplx:"Medium",owner:"BA"},
+  {id:"5.2",task:"Migration scripts — historical bake log (1,650+ rows → DB)",est:4,min:3,max:6,cplx:"Medium",owner:"Dev BE"},
+  {id:"5.3",task:"Migration scripts — sand transfer log (147 rows → DB)",est:2,min:1,max:3,cplx:"Low",owner:"Dev BE"},
+  {id:"5.4",task:"Reference data seed scripts (hampers, ovens, printers, defect codes)",est:2,min:1,max:3,cplx:"Low",owner:"Dev BE"},
+  {id:"5.5",task:"Migration dry-run & data validation (row counts, SAP flag reconcile)",est:3,min:2,max:4,cplx:"Medium",owner:"BA / QA"},
+  {id:"5.6",task:"Cut-over migration plan & rollback procedure",est:2,min:1,max:3,cplx:"Medium",owner:"PM / BA"},
+  {phase:"6",title:"TESTING & QA",color:"#dc2626"},
+  {id:"6.1",task:"Integration test plan authoring",est:3,min:2,max:4,cplx:"Medium",owner:"QA"},
+  {id:"6.2",task:"End-to-end test cases — bake recording (serialized path)",est:5,min:4,max:7,cplx:"High",owner:"QA"},
+  {id:"6.3",task:"End-to-end test cases — bake recording (non-serialized path)",est:4,min:3,max:6,cplx:"High",owner:"QA"},
+  {id:"6.4",task:"End-to-end test cases — sand transfer",est:3,min:2,max:4,cplx:"Medium",owner:"QA"},
+  {id:"6.5",task:"SAP sandbox regression testing (all 9 transactions)",est:6,min:5,max:9,cplx:"High",owner:"QA / Dev SAP"},
+  {id:"6.6",task:"Offline mode & queue replay testing",est:4,min:3,max:6,cplx:"High",owner:"QA"},
+  {id:"6.7",task:"Performance testing (API response times, concurrent users)",est:3,min:2,max:5,cplx:"Medium",owner:"QA"},
+  {id:"6.8",task:"UAT — operator walkthrough (2 shifts, 3 furnace operators)",est:5,min:4,max:7,cplx:"Medium",owner:"BA / PM"},
+  {id:"6.9",task:"UAT defect triage & fix",est:5,min:4,max:8,cplx:"High",owner:"Dev BE / FE"},
+  {id:"6.10",task:"Security review (auth, input validation, no hardcoded paths)",est:3,min:2,max:4,cplx:"Medium",owner:"SA / Dev BE"},
+  {phase:"7",title:"DEPLOYMENT & HANDOVER",color:"#475569"},
+  {id:"7.1",task:"Production environment setup (IIS / Azure App Service, DB, networking)",est:3,min:2,max:5,cplx:"Medium",owner:"DevOps"},
+  {id:"7.2",task:"CI/CD pipeline — build, test, deploy (GitHub Actions / Azure DevOps)",est:3,min:2,max:5,cplx:"Medium",owner:"DevOps"},
+  {id:"7.3",task:"Monitoring & alerting setup (App Insights / health checks)",est:2,min:1,max:3,cplx:"Medium",owner:"DevOps"},
+  {id:"7.4",task:"Operator training (hands-on session, 2-hour workshop × 2 groups)",est:3,min:2,max:4,cplx:"Low",owner:"PM / BA"},
+  {id:"7.5",task:"User documentation & quick-reference card",est:2,min:1,max:3,cplx:"Low",owner:"BA"},
+  {id:"7.6",task:"Parallel run — new app + VBA side-by-side (2-week overlap)",est:10,min:8,max:14,cplx:"High",owner:"PM / All"},
+  {id:"7.7",task:"Production cut-over & VBA decommission",est:2,min:1,max:3,cplx:"Medium",owner:"PM / DevOps"},
+  {id:"7.8",task:"Post-go-live hypercare (2 weeks on-call support)",est:10,min:8,max:14,cplx:"Medium",owner:"Dev BE / FE"},
+  {id:"7.9",task:"Project closure — lessons learned, final documentation",est:2,min:1,max:3,cplx:"Low",owner:"PM"},
+];
+
+const cplxColors = {High:"#fee2e2",Medium:"#fef3c7",Low:"#dcfce7"};
+const tbody = document.getElementById('wbs-tbody');
+let phaseColor = "#2563eb";
+wbsData.forEach(row => {
+  if (row.phase) {
+    phaseColor = row.color;
+    const tr = document.createElement('tr');
+    tr.className = 'phase-row';
+    tr.innerHTML = `<td colspan="7" style="background:${row.color}!important;padding:10px 12px;font-weight:600;font-size:12px;letter-spacing:.04em">${row.phase} · ${row.title}</td>`;
+    tbody.appendChild(tr);
+  } else {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="td-phase td-num" style="border-left:3px solid ${phaseColor}">${row.id}</td>
+      <td>${row.task}</td>
+      <td class="td-num">${row.est}</td>
+      <td class="td-num" style="color:#64748b">${row.min}</td>
+      <td class="td-num" style="color:#64748b">${row.max}</td>
+      <td class="td-num" style="background:${cplxColors[row.cplx]||'#fff'};font-size:11px;font-weight:600">${row.cplx}</td>
+      <td class="td-num" style="font-size:11px;color:#475569">${row.owner}</td>`;
+    tbody.appendChild(tr);
+  }
+});
+
+// ── RESOURCE DATA ────────────────────────────────────────────────
+const resources = [
+  {role:"PM",skill:"Project Manager",rate:900,loading:[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]},
+  {role:"SA",skill:"Solution Architect",rate:950,loading:[1.0,1.0,0.75,0.5,0.5,0.5,0.25,0.25,0.25,0.25,0,0]},
+  {role:"BA",skill:"Business Analyst",rate:750,loading:[0.75,0.75,0.75,0.5,0.5,0.25,0.25,0.5,0.5,0.5,0.25,0]},
+  {role:"Dev BE",skill:"Senior .NET Dev (Backend)",rate:850,loading:[0.25,0.5,1.0,1.0,1.0,1.0,1.0,1.0,0.75,0.75,0.5,0.25]},
+  {role:"Dev BE",skill:".NET Dev (Backend)",rate:750,loading:[0,0.25,0.75,1.0,1.0,1.0,1.0,0.75,0.5,0.5,0.25,0]},
+  {role:"Dev FE",skill:"Senior React Dev",rate:850,loading:[0.25,0.25,0.5,1.0,1.0,1.0,1.0,1.0,0.75,0.5,0.25,0]},
+  {role:"Dev FE",skill:"React Dev",rate:750,loading:[0,0,0.25,0.75,1.0,1.0,1.0,0.75,0.5,0.25,0,0]},
+  {role:"Dev SAP",skill:"SAP Integration Dev",rate:950,loading:[0.25,0.5,0.5,0.75,1.0,1.0,1.0,0.75,0.5,0.25,0,0]},
+  {role:"DevOps",skill:"DevOps Engineer",rate:850,loading:[0.5,0.5,0.5,0.25,0.25,0.25,0.25,0.25,0.5,0.5,0.75,0.5]},
+  {role:"QA",skill:"QA / Test Engineer",rate:700,loading:[0,0,0.25,0.25,0.5,0.5,0.75,1.0,1.0,1.0,0.75,0.25]},
+  {role:"UI/UX",skill:"UX Designer",rate:800,loading:[0.75,0.75,0.5,0.25,0,0,0,0,0,0.25,0,0]},
+];
+function loadClass(v) {
+  if(v===0) return 'load-0';
+  if(v<=0.25) return 'load-25';
+  if(v<=0.5) return 'load-50';
+  if(v<=0.75) return 'load-75';
+  return 'load-100';
+}
+const resTbody = document.getElementById('res-tbody');
+let totalCost = 0;
+resources.forEach(r => {
+  const days = r.loading.reduce((a,b)=>a+b*10,0);
+  const cost = days * r.rate;
+  totalCost += cost;
+  const loadCells = r.loading.map(v=>
+    `<td class="${loadClass(v)}">${v===0?'—':v.toFixed(2)}</td>`
+  ).join('');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="rt-left rt-role">${r.role}</td>
+    <td class="rt-left" style="font-weight:500">${r.skill}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:11px">$${r.rate.toLocaleString()}</td>
+    <td style="font-weight:600;font-family:'DM Mono',monospace">${days.toFixed(1)}</td>
+    ${loadCells}
+    <td style="font-family:'DM Mono',monospace;font-size:11px;font-weight:600">$${cost.toLocaleString('en',{maximumFractionDigits:0})}</td>`;
+  resTbody.appendChild(tr);
+});
+// Totals row
+const totals = document.createElement('tr');
+totals.className = 'rt-total';
+const sprintTotals = Array(12).fill(0);
+resources.forEach(r => r.loading.forEach((v,i)=>sprintTotals[i]+=v));
+totals.innerHTML = `
+  <td class="rt-left" colspan="2" style="font-weight:700">TEAM FTE TOTAL</td>
+  <td></td>
+  <td style="font-family:'DM Mono',monospace;font-weight:700">${resources.reduce((a,r)=>a+r.loading.reduce((b,v)=>b+v*10,0),0).toFixed(0)}</td>
+  ${sprintTotals.map(v=>`<td style="font-family:'DM Mono',monospace">${v.toFixed(2)}</td>`).join('')}
+  <td style="font-family:'DM Mono',monospace;font-weight:700">$${totalCost.toLocaleString('en',{maximumFractionDigits:0})}</td>`;
+resTbody.appendChild(totals);
+
+// ── GANTT DATA ───────────────────────────────────────────────────
+const ganttData = [
+  {section:"1 · INITIATION & ARCHITECTURE",color:"#2563eb"},
+  {id:"1.1",task:"Kick-off & scope sign-off",sw:1,ew:1,color:"#2563eb"},
+  {id:"1.2",task:"VBA reverse-engineering",sw:1,ew:2,color:"#2563eb"},
+  {id:"1.3",task:"Solution architecture design",sw:2,ew:3,color:"#2563eb"},
+  {id:"1.4",task:"Repo, CI/CD skeleton",sw:2,ew:2,color:"#2563eb"},
+  {id:"1.5",task:"Database design",sw:2,ew:3,color:"#2563eb"},
+  {id:"1.6",task:"API contract (OpenAPI spec)",sw:3,ew:3,color:"#2563eb"},
+  {id:"1.7",task:"UI/UX wireframes & prototype",sw:2,ew:4,color:"#2563eb"},
+  {id:"★",task:"Architecture sign-off",sw:4,ew:4,color:"#0f1923",milestone:true},
+  {section:"2 · BACKEND .NET API",color:"#0d9488"},
+  {id:"2.1",task:"Project scaffolding",sw:3,ew:3,color:"#0d9488"},
+  {id:"2.2",task:"Auth & authorisation (AD)",sw:3,ew:5,color:"#0d9488"},
+  {id:"2.3",task:"Reference data API",sw:4,ew:5,color:"#0d9488"},
+  {id:"2.4",task:"Bake record CRUD API",sw:5,ew:7,color:"#0d9488"},
+  {id:"2.5",task:"Sand transfer CRUD API",sw:5,ew:7,color:"#0d9488"},
+  {id:"2.6",task:"Offline queue service",sw:6,ew:8,color:"#0d9488"},
+  {id:"2.7",task:"Audit log service",sw:7,ew:8,color:"#0d9488"},
+  {id:"2.8",task:"Remote backup service",sw:8,ew:9,color:"#0d9488"},
+  {id:"2.9",task:"Label print API",sw:8,ew:9,color:"#0d9488"},
+  {id:"2.10",task:"Ketchup background service",sw:9,ew:11,color:"#0d9488"},
+  {id:"2.11",task:"Backend unit tests",sw:7,ew:12,color:"#0d9488"},
+  {id:"★",task:"Backend API code-complete",sw:12,ew:12,color:"#0f1923",milestone:true},
+  {section:"3 · REACT FRONTEND",color:"#7c3aed"},
+  {id:"3.1",task:"React project setup",sw:3,ew:3,color:"#7c3aed"},
+  {id:"3.2",task:"Design system / shared components",sw:4,ew:6,color:"#7c3aed"},
+  {id:"3.3",task:"BakeForm — Serialized",sw:5,ew:9,color:"#7c3aed"},
+  {id:"3.4",task:"BakeForm — Non-Serialized",sw:6,ew:9,color:"#7c3aed"},
+  {id:"3.5",task:"SandForm screen",sw:7,ew:9,color:"#7c3aed"},
+  {id:"3.6",task:"Bake Log view",sw:8,ew:10,color:"#7c3aed"},
+  {id:"3.7",task:"Reference data admin",sw:9,ew:10,color:"#7c3aed"},
+  {id:"3.8",task:"Offline mode indicator",sw:9,ew:10,color:"#7c3aed"},
+  {id:"3.9",task:"Label print flow",sw:10,ew:11,color:"#7c3aed"},
+  {id:"3.11",task:"Responsive & accessibility",sw:11,ew:12,color:"#7c3aed"},
+  {id:"3.12",task:"Frontend component tests",sw:9,ew:13,color:"#7c3aed"},
+  {id:"★",task:"Frontend code-complete",sw:13,ew:13,color:"#0f1923",milestone:true},
+  {section:"4 · SAP INTEGRATION",color:"#d97706"},
+  {id:"4.1",task:"SAP NCo connectivity setup",sw:4,ew:5,color:"#d97706"},
+  {id:"4.2",task:"COR3 order lookup",sw:5,ew:6,color:"#d97706"},
+  {id:"4.3",task:"MM03 material lookup",sw:5,ew:6,color:"#d97706"},
+  {id:"4.4",task:"COR6 step 20+40 posting",sw:6,ew:9,color:"#d97706"},
+  {id:"4.5",task:"MIGO 261/309 service",sw:7,ew:9,color:"#d97706"},
+  {id:"4.6",task:"MB52 stock query",sw:7,ew:8,color:"#d97706"},
+  {id:"4.7",task:"MB51 FIFO lookup",sw:8,ew:9,color:"#d97706"},
+  {id:"4.8",task:"ZMMS2S sand transfer",sw:9,ew:10,color:"#d97706"},
+  {id:"4.9",task:"COP1/COWBHU HU creation",sw:9,ew:11,color:"#d97706"},
+  {id:"4.10",task:"Error handling & COGI fallback",sw:10,ew:12,color:"#d97706"},
+  {id:"4.11",task:"SAP integration tests",sw:11,ew:13,color:"#d97706"},
+  {id:"★",task:"SAP integration complete",sw:13,ew:13,color:"#0f1923",milestone:true},
+  {section:"5 · DATA MIGRATION",color:"#16a34a"},
+  {id:"5.1",task:"Data profiling",sw:5,ew:6,color:"#16a34a"},
+  {id:"5.2",task:"Historical bake log migration",sw:12,ew:13,color:"#16a34a"},
+  {id:"5.3-5.4",task:"Sand log + reference seed scripts",sw:12,ew:13,color:"#16a34a"},
+  {id:"5.5",task:"Dry-run & validation",sw:13,ew:14,color:"#16a34a"},
+  {id:"5.6",task:"Cut-over & rollback plan",sw:14,ew:15,color:"#16a34a"},
+  {id:"★",task:"Data migration ready",sw:15,ew:15,color:"#0f1923",milestone:true},
+  {section:"6 · TESTING & QA",color:"#dc2626"},
+  {id:"6.1",task:"Integration test plan",sw:10,ew:11,color:"#dc2626"},
+  {id:"6.2-6.3",task:"E2E — serialized & non-serialized bake",sw:12,ew:14,color:"#dc2626"},
+  {id:"6.4",task:"E2E — sand transfer",sw:13,ew:14,color:"#dc2626"},
+  {id:"6.5",task:"SAP sandbox regression",sw:13,ew:15,color:"#dc2626"},
+  {id:"6.6",task:"Offline mode testing",sw:14,ew:15,color:"#dc2626"},
+  {id:"6.7",task:"Performance testing",sw:15,ew:16,color:"#dc2626"},
+  {id:"6.8",task:"UAT — operator walkthrough",sw:16,ew:17,color:"#dc2626"},
+  {id:"6.9-6.10",task:"UAT defect fix + security review",sw:17,ew:18,color:"#dc2626"},
+  {id:"★",task:"UAT sign-off",sw:18,ew:18,color:"#0f1923",milestone:true},
+  {section:"7 · DEPLOYMENT & HANDOVER",color:"#475569"},
+  {id:"7.1",task:"Production environment setup",sw:14,ew:16,color:"#475569"},
+  {id:"7.2-7.3",task:"CI/CD pipeline + monitoring",sw:15,ew:17,color:"#475569"},
+  {id:"7.4-7.5",task:"Operator training + documentation",sw:18,ew:20,color:"#475569"},
+  {id:"7.6",task:"Parallel run (2 weeks)",sw:19,ew:20,color:"#475569"},
+  {id:"7.7",task:"Production cut-over",sw:20,ew:20,color:"#0f1923",milestone:true},
+  {id:"7.8",task:"Post go-live hypercare",sw:21,ew:22,color:"#475569"},
+  {id:"7.9",task:"Project closure",sw:23,ew:24,color:"#475569"},
+  {id:"★",task:"PROJECT COMPLETE",sw:24,ew:24,color:"#0f1923",milestone:true},
+];
+
+const ganttTbody = document.getElementById('gantt-tbody');
+ganttData.forEach(row => {
+  const tr = document.createElement('tr');
+  if (row.section) {
+    tr.className = 'gantt-section';
+    tr.innerHTML = `<td colspan="26">${row.section}</td>`;
+  } else if (row.milestone) {
+    const cells = Array.from({length:24},(_,i)=>i+1).map(w=>{
+      if(w===row.sw) return `<td class="gantt-milestone" style="background:#0f1923;color:#f59e0b;font-size:14px">◆</td>`;
+      return `<td style="background:#f8fafc"></td>`;
+    }).join('');
+    tr.innerHTML = `<td class="gt-phase-label" style="color:#f59e0b;font-weight:700;background:#0f1923">★</td><td class="gt-task-label" style="background:#fef3c7;font-weight:600;color:#92400e">${row.task}</td>${cells}`;
+  } else {
+    const cells = Array.from({length:24},(_,i)=>i+1).map(w=>{
+      const bg = (w>=row.sw && w<=row.ew) ? row.color : (w%2===0?'#f8fafc':'#fff');
+      const opacity = (w===row.sw||w===row.ew) ? '0.75' : '1';
+      return `<td style="background:${bg};opacity:${(w>=row.sw&&w<=row.ew)?opacity:'1'}"></td>`;
+    }).join('');
+    tr.innerHTML = `<td class="gt-phase-label">${row.id}</td><td class="gt-task-label">${row.task}</td>${cells}`;
+  }
+  ganttTbody.appendChild(tr);
+});
+
+// ── EFFORT & ROLES ────────────────────────────────────────────────
+const phaseEfforts = [
+  {ph:"Phase 1",desc:"Initiation & Architecture",est:30,min:20,max:40},
+  {ph:"Phase 2",desc:"Backend .NET API",est:56,min:40,max:72},
+  {ph:"Phase 3",desc:"React Frontend",est:51,min:35,max:68},
+  {ph:"Phase 4",desc:"SAP Integration Layer",est:56,min:40,max:79},
+  {ph:"Phase 5",desc:"Data Migration",est:16,min:10,max:23},
+  {ph:"Phase 6",desc:"Testing & QA",est:41,min:31,max:60},
+  {ph:"Phase 7",desc:"Deployment & Handover",est:37,min:25,max:54},
+];
+const phaseBarColors = ["#2563eb","#0d9488","#7c3aed","#d97706","#16a34a","#dc2626","#475569"];
+const total = phaseEfforts.reduce((a,p)=>a+p.est,0);
+
+const effortBars = document.getElementById('effort-bars');
+phaseEfforts.forEach((p,i)=>{
+  const pct = Math.round(p.est/total*100);
+  const div = document.createElement('div');
+  div.className = 'effort-bar-row';
+  div.innerHTML = `<div class="effort-bar-label" style="font-size:11px">${p.ph}</div>
+    <div class="effort-bar-track"><div class="effort-bar-fill" style="width:${pct}%;background:${phaseBarColors[i]}"></div></div>
+    <div class="effort-bar-num">${p.est}d</div>`;
+  effortBars.appendChild(div);
+});
+
+const phaseTbody = document.getElementById('phase-table-body');
+phaseEfforts.forEach((p,i)=>{
+  const pct = (p.est/total*100).toFixed(1);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${phaseBarColors[i]};margin-right:6px"></span>${p.ph}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace;font-weight:600">${p.est}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace;color:#64748b">${p.min}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace;color:#64748b">${p.max}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace">${pct}%</td>`;
+  phaseTbody.appendChild(tr);
+});
+// Total row
+const totTr = document.createElement('tr');
+totTr.style.cssText = 'background:var(--navy);color:white;font-weight:600';
+totTr.innerHTML = `<td style="color:#fff;padding:7px 10px">TOTAL</td>
+  <td style="text-align:center;color:#fff;font-family:'DM Mono',monospace;padding:7px 10px">${total}</td>
+  <td style="text-align:center;color:#93c5fd;font-family:'DM Mono',monospace;padding:7px 10px">${phaseEfforts.reduce((a,p)=>a+p.min,0)}</td>
+  <td style="text-align:center;color:#93c5fd;font-family:'DM Mono',monospace;padding:7px 10px">${phaseEfforts.reduce((a,p)=>a+p.max,0)}</td>
+  <td style="text-align:center;color:#fff;padding:7px 10px">100%</td>`;
+phaseTbody.appendChild(totTr);
+
+const rolesData = [
+  {role:"Project Manager",resp:"Kick-off, stakeholder comms, sprint ceremonies, risk log, sign-off coordination",num:1,days:60,phases:"All phases"},
+  {role:"Solution Architect",resp:"Architecture design, API contract, tech decisions, security review, code review",num:1,days:65,phases:"Ph 1–2, 6"},
+  {role:"Business Analyst",resp:"Requirements, data mapping, UAT coordination, user docs, migration validation",num:1,days:50,phases:"Ph 1, 5–7"},
+  {role:"Senior .NET Dev (BE)",resp:"Backend API lead, offline queue, ketchup service, code review, mentoring",num:1,days:77,phases:"Ph 2, 6–7"},
+  {role:".NET Dev (Backend)",resp:"Backend APIs, data migration scripts, integration support",num:1,days:57,phases:"Ph 2, 5"},
+  {role:"Senior React Dev (FE)",resp:"React lead, design system, BakeForm serialized, component architecture",num:1,days:70,phases:"Ph 3, 6"},
+  {role:"React Dev (Frontend)",resp:"Secondary screens, SandForm, Bake Log, responsive layout",num:1,days:52,phases:"Ph 3"},
+  {role:"SAP Integration Dev",resp:"All 9 SAP transaction services, NCo setup, error handling, SAP sandbox testing",num:1,days:62,phases:"Ph 4"},
+  {role:"DevOps Engineer",resp:"CI/CD pipeline, environments, monitoring, production cut-over",num:1,days:47,phases:"Ph 1, 7"},
+  {role:"QA / Test Engineer",resp:"Integration test plan, E2E tests, UAT support, performance testing",num:1,days:58,phases:"Ph 6"},
+  {role:"UX Designer",resp:"Wireframes, prototype, design system tokens, UAT feedback",num:1,days:22,phases:"Ph 1, 3"},
+];
+const rolesTbody = document.getElementById('roles-tbody');
+rolesData.forEach((r,i)=>{
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="font-weight:600;font-size:12px">${r.role}</td>
+    <td style="font-size:12px">${r.resp}</td>
+    <td style="text-align:center">${r.num}</td>
+    <td style="text-align:center;font-family:'DM Mono',monospace;font-weight:600">${r.days}</td>
+    <td style="font-size:11px;color:var(--text-muted)">${r.phases}</td>`;
+  rolesTbody.appendChild(tr);
+});
+// Total
+const rtTot = document.createElement('tr');
+rtTot.style.cssText = 'background:var(--navy)';
+rtTot.innerHTML = `<td colspan="2" style="color:#fff;font-weight:700;padding:8px 10px">TEAM TOTAL</td>
+  <td style="color:#fff;text-align:center;font-weight:700;padding:8px 10px">${rolesData.reduce((a,r)=>a+r.num,0)}</td>
+  <td style="color:#93c5fd;text-align:center;font-family:'DM Mono',monospace;font-weight:700;padding:8px 10px">${rolesData.reduce((a,r)=>a+r.days,0)}</td>
+  <td style="padding:8px 10px"></td>`;
+rolesTbody.appendChild(rtTot);
+
+const assumptions = [
+  "Team is co-located or in the same timezone. Remote adds ~10–15% coordination overhead.",
+  "SAP sandbox environment (Q105) available from Sprint 4 onwards for integration testing.",
+  "Estimates in working days (1 day = 8 hours). Weekends and public holidays excluded.",
+  "Resource loading shown as FTE fraction: 0.25 = 2 hrs/day, 0.5 = 4 hrs/day, 1.0 = 8 hrs/day.",
+  "Parallel run (Phase 7.6) requires legacy VBA app to remain operational for 2 weeks post-launch.",
+  "SAP NCo 3.x licence available or will be procured before Sprint 4 start.",
+  "Database: SQL Server (on-prem or Azure SQL). Hosting: Azure App Service (Dev + Prod environments).",
+  "Contingency not included — recommend 15% buffer on total estimate (adds ~43 days).",
+  "UX Designer is part-time. A full-time designer would reduce Phase 3 duration by ~1 sprint.",
+  "10 working days = 1 sprint = 2 calendar weeks. 12 sprints = 24 weeks ≈ 6 calendar months.",
+];
+const assumpList = document.getElementById('assumptions-list');
+assumptions.forEach((a,i)=>{
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `<div class="item-dot" style="background:var(--slate)"></div><div><strong>${i+1}.</strong> ${a}</div>`;
+  assumpList.appendChild(div);
+});
+</script>
+</body>
+</html>
