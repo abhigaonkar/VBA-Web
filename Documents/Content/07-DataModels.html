@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Models Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        h3 { color: #764ba2; margin-top: 25px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; }
+        th { background: #667eea; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Data Models</h1>
+            <p style="color: #666; font-size: 1.1em;">Complete Database Schema & Structure</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>🏛️ Universal Sheet Structure</h2>
+            
+            <h3>Sheet1: Transaction Log (Common Across All Apps)</h3>
+            <table>
+                <tr>
+                    <th>Column</th>
+                    <th>Field Name</th>
+                    <th>Data Type</th>
+                    <th>Usage</th>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>Identifier</td>
+                    <td>Text/Number</td>
+                    <td>Furnace ID or Timestamp</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>Timestamp</td>
+                    <td>DateTime</td>
+                    <td>Transaction entry time (auto-NOW)</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>Pallet/Container ID</td>
+                    <td>Number</td>
+                    <td>Material tracking reference</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>Process Order</td>
+                    <td>Number</td>
+                    <td>SAP Production Order</td>
+                </tr>
+                <tr>
+                    <td>E</td>
+                    <td>Item Number</td>
+                    <td>Number</td>
+                    <td>Material number to produce</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td>Operator/User</td>
+                    <td>Text</td>
+                    <td>Windows username (audit)</td>
+                </tr>
+                <tr>
+                    <td>G+</td>
+                    <td>App-Specific Fields</td>
+                    <td>Mixed</td>
+                    <td>Batches, measurements, etc.</td>
+                </tr>
+            </table>
+            
+            <h3>Sheet2: Configuration</h3>
+            <table>
+                <tr>
+                    <th>Content</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>Online/Offline Flag</td>
+                    <td>Mode indicator</td>
+                </tr>
+                <tr>
+                    <td>Last Used Values</td>
+                    <td>Form defaults</td>
+                </tr>
+                <tr>
+                    <td>Equipment/Furnace Data</td>
+                    <td>Cached SAP data</td>
+                </tr>
+                <tr>
+                    <td>Material Cache</td>
+                    <td>Specifications & dimensions</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔥 Bake Application Schema</h2>
+            <table>
+                <tr>
+                    <th>Columns</th>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>A-B</td>
+                    <td>Timestamp, Operator</td>
+                    <td>DateTime, Text</td>
+                    <td>Audit trail</td>
+                </tr>
+                <tr>
+                    <td>C-F</td>
+                    <td>Process Order, Item, Pallet</td>
+                    <td>Number</td>
+                    <td>SAP references</td>
+                </tr>
+                <tr>
+                    <td>G-N</td>
+                    <td>Batch1-Batch8</td>
+                    <td>Text</td>
+                    <td>Up to 8 batch numbers</td>
+                </tr>
+                <tr>
+                    <td>O-Q</td>
+                    <td>Measurements</td>
+                    <td>Decimal</td>
+                    <td>Length, Bow values</td>
+                </tr>
+                <tr>
+                    <td>R-U</td>
+                    <td>Hamper Config</td>
+                    <td>Mixed</td>
+                    <td>Hamper ID, Qty, Location, Mov Type</td>
+                </tr>
+                <tr>
+                    <td>V-Y</td>
+                    <td>Strapping</td>
+                    <td>Mixed</td>
+                    <td>Item, Qty (24×hamper_qty)</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>📦 HV Pack Application Schema</h2>
+            <ul>
+                <li><strong>Batch Tracking:</strong> 8 batch fields (Batch1-Batch8)</li>
+                <li><strong>Measurements:</strong> Length, Bow (×2 points)</li>
+                <li><strong>Hamper Config:</strong> ID, Qty, Location, Movement Type</li>
+                <li><strong>Strapping:</strong> Item number, Qty (auto: 24× hamper qty)</li>
+                <li><strong>Optional Returns:</strong> Return item, qty, movement type</li>
+                <li><strong>Optional Waffle:</strong> Item 124451, quantity</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎣 LampRod Application Schema</h2>
+            <ul>
+                <li><strong>Furnace:</strong> FR11-FR14 codes</li>
+                <li><strong>Production:</strong> Pallet card, process order, item</li>
+                <li><strong>Metrics:</strong> Quantity produced, labor hours</li>
+                <li><strong>Scrap:</strong> Up to 4 entries (reason, amount, flags)</li>
+                <li><strong>Equipment:</strong> Hours allocation per furnace</li>
+                <li><strong>Sand Transfer:</strong> Item, batch, qty, locations</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📐 Serialized Material Schema</h2>
+            <ul>
+                <li><strong>OD Measurements:</strong> OD1, OD2, OD3, OD4</li>
+                <li><strong>WALL Measurements:</strong> WALL1-WALL8</li>
+                <li><strong>Bow Value:</strong> Decimal</li>
+                <li><strong>Exact Length:</strong> Measured length</li>
+                <li><strong>Defect Code:</strong> 13 category codes</li>
+                <li><strong>Material Routing:</strong> Webb/Scrap-D/Plate/Trash flags</li>
+                <li><strong>Serial Number:</strong> Auto-generated per furnace</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>📖 Data Models Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

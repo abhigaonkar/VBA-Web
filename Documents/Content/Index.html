@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBA-Web Manufacturing Applications - Complete Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        header { 
+            background: white; 
+            padding: 50px; 
+            border-radius: 15px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        h1 { 
+            color: #667eea; 
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .subtitle { 
+            color: #666; 
+            font-size: 1.3em; 
+            margin-top: 15px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .section { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2); 
+            margin-bottom: 40px; 
+        }
+        h2 { 
+            color: #667eea; 
+            border-bottom: 4px solid #667eea; 
+            padding-bottom: 15px; 
+            margin-bottom: 25px; 
+            font-size: 2em;
+        }
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        .card h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        .card-stat {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .card-description {
+            font-size: 0.95em;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+        }
+        .nav-link:hover {
+            background: #764ba2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #f9f9f9;
+        }
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background: #f0f0f0;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .list-two-columns {
+            columns: 2;
+            column-gap: 30px;
+        }
+        .list-two-columns li {
+            margin-bottom: 10px;
+        }
+        footer {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+        }
+        .download-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            margin: 10px 5px;
+        }
+        .download-btn:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 VBA-Web Manufacturing Suite</h1>
+            <p class="subtitle">Complete Technical Documentation & Architecture Guide</p>
+            <p style="margin-top: 20px; color: #666; font-size: 1em;">
+                Comprehensive documentation for 4 integrated Excel-based manufacturing applications with SAP ERP integration
+            </p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">78</div>
+                    <div class="stat-label">Modules</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">~1.4 MB</div>
+                    <div class="stat-label">Total Code</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Shared Classes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">SAP Transactions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Documented</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="section">
+            <h2>🎯 Quick Navigation</h2>
+            <div class="nav-grid">
+                <a href="#overview" class="nav-link">📋 Overview</a>
+                <a href="#applications" class="nav-link">📱 Applications</a>
+                <a href="#architecture" class="nav-link">🏗️ Architecture</a>
+                <a href="#technology" class="nav-link">💻 Technology</a>
+                <a href="#security" class="nav-link">🔒 Security</a>
+                <a href="#data" class="nav-link">📊 Data Models</a>
+                <a href="#workflows" class="nav-link">🔄 Workflows</a>
+                <a href="#support" class="nav-link">❓ Support</a>
+            </div>
+        </div>
+        
+        <div class="section" id="overview">
+            <h2>📋 System Overview</h2>
+            <p>The VBA-Web platform is a comprehensive manufacturing execution system built with Excel VBA. It handles production operations across four specialized applications with real-time SAP ERP integration, offline-first design, and complete audit trail capabilities.</p>
+            
+            <div class="highlight">
+                <h3 style="margin-top: 0; color: #333;">✨ Key Capabilities</h3>
+                <ul class="list-two-columns">
+                    <li>Online/Offline operation with eventual consistency</li>
+                    <li>Real-time SAP GUI Scripting integration</li>
+                    <li>7 SAP transactions automated (COR6, COR3, MB52, MIGO, etc.)</li>
+                    <li>Local spreadsheet + network backup architecture</li>
+                    <li>FIFO batch sequencing for reliable processing</li>
+                    <li>Quality control & non-conformity tracking</li>
+                    <li>Real-time inventory synchronization</li>
+                    <li>Comprehensive audit trail with operator tracking</li>
+                    <li>Centralized error handling & recovery</li>
+                    <li>Multi-furnace parallel entry (up to 4 channels)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section" id="applications">
+            <h2>📱 Application Portfolio</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🔥 Bake Application</h3>
+                    <div class="card-stat">202.7 KB</div>
+                    <div class="card-description">
+                        Vacuum furnace baking operations with dual-mode entry (serialized/non-serialized) and sand transfer management. Supports hamper packing and production tracking.
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📦 HV Pack</h3>
+                    <div class="card-stat">183.4 KB</div>
+                    <div class="card-description">
+                        High-voltage material packing into hampers. Manages 8 batches per transaction, handles strapping, return hampers, and waffle boards with handling unit creation.
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎣 Lamp Rod Draw</h3>
+                    <div class="card-stat">484.7 KB</div>
+                    <div class="card-description">
+                        LARGEST APPLICATION. Non-serialized furnace drawing with real-time sand inventory management via MB52 queries, equipment tracking, and multi-location transfers.
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📐 Serialized Material</h3>
+                    <div class="card-stat">266.9 KB</div>
+                    <div class="card-description">
+                        LARGEST FORM (53 KB). Precision tube drawing with 4-point OD and 8-point wall thickness measurement tracking. Multi-page interface for 4 parallel furnaces.
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Comparative Features</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Bake</th>
+                    <th>HV Pack</th>
+                    <th>Lamp Rod</th>
+                    <th>Serialized</th>
+                </tr>
+                <tr>
+                    <td>Online/Offline</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                </tr>
+                <tr>
+                    <td>SAP Integration</td>
+                    <td>✓✓</td>
+                    <td>✓✓✓</td>
+                    <td>✓✓✓</td>
+                    <td>✓✓</td>
+                </tr>
+                <tr>
+                    <td>Sand Transfer</td>
+                    <td>✓</td>
+                    <td>-</td>
+                    <td>✓✓</td>
+                    <td>✓</td>
+                </tr>
+                <tr>
+                    <td>Measurement Tracking</td>
+                    <td>Basic</td>
+                    <td>Lengths</td>
+                    <td>Quantities</td>
+                    <td>Precision (12 points)</td>
+                </tr>
+                <tr>
+                    <td>Quality Control</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                    <td>✓</td>
+                    <td>✓✓ (13 codes)</td>
+                </tr>
+                <tr>
+                    <td>Multi-Channel</td>
+                    <td>Dual</td>
+                    <td>Single</td>
+                    <td>Single</td>
+                    <td>4-Page</td>
+                </tr>
+                <tr>
+                    <td>Modules</td>
+                    <td>19</td>
+                    <td>16</td>
+                    <td>18</td>
+                    <td>21</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section" id="architecture">
+            <h2>🏗️ Technical Architecture</h2>
+            
+            <h3>Layered Architecture Model</h3>
+            <table>
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
+                    <th>Components</th>
+                </tr>
+                <tr>
+                    <td><strong>Presentation</strong></td>
+                    <td>Excel VBA UserForms</td>
+                    <td>4 forms with data entry interfaces</td>
+                </tr>
+                <tr>
+                    <td><strong>Business Logic</strong></td>
+                    <td>VBA Module2</td>
+                    <td>Transaction orchestration, offline queuing</td>
+                </tr>
+                <tr>
+                    <td><strong>Class Library</strong></td>
+                    <td>VBA Classes (9 shared)</td>
+                    <td>Material, COR6, Status, FIFO, etc.</td>
+                </tr>
+                <tr>
+                    <td><strong>SAP Integration</strong></td>
+                    <td>GUI Scripting API</td>
+                    <td>7 SAP transactions automated</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Persistence</strong></td>
+                    <td>Excel + Network</td>
+                    <td>Local workbook + remote backup</td>
+                </tr>
+            </table>
+            
+            <h3>SAP Transaction Map</h3>
+            <table>
+                <tr>
+                    <th>Transaction</th>
+                    <th>Purpose</th>
+                    <th>Used By</th>
+                    <th>Handler</th>
+                </tr>
+                <tr>
+                    <td><strong>COR6</strong></td>
+                    <td>Production Confirmation</td>
+                    <td>All 4 apps</td>
+                    <td>clsCOR6</td>
+                </tr>
+                <tr>
+                    <td><strong>COR3</strong></td>
+                    <td>Order Information</td>
+                    <td>LampRod, Serialized</td>
+                    <td>clsCOR3</td>
+                </tr>
+                <tr>
+                    <td><strong>COOISPI</strong></td>
+                    <td>Production Operations</td>
+                    <td>All 4 apps</td>
+                    <td>clsCOOISPI</td>
+                </tr>
+                <tr>
+                    <td><strong>MB52</strong></td>
+                    <td>Stock Overview</td>
+                    <td>LampRod, Serialized</td>
+                    <td>clsMB52</td>
+                </tr>
+                <tr>
+                    <td><strong>MIGO</strong></td>
+                    <td>Goods Movement</td>
+                    <td>LampRod, Serialized</td>
+                    <td>Module2</td>
+                </tr>
+                <tr>
+                    <td><strong>HUMO</strong></td>
+                    <td>Handling Units</td>
+                    <td>HVPack, Serialized</td>
+                    <td>clsHU</td>
+                </tr>
+                <tr>
+                    <td><strong>/nzpplabel</strong></td>
+                    <td>Label Printing</td>
+                    <td>HVPack</td>
+                    <td>Module2</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section" id="technology">
+            <h2>💻 Technology Stack</h2>
+            <table>
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
+                    <th>Purpose</th>
+                    <th>Version/Details</th>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td>VBA (Visual Basic for Applications)</td>
+                    <td>Application development</td>
+                    <td>Excel 2016+</td>
+                </tr>
+                <tr>
+                    <td>UI Framework</td>
+                    <td>Excel UserForms</td>
+                    <td>Data entry interface</td>
+                    <td>Native Excel controls</td>
+                </tr>
+                <tr>
+                    <td>SAP Interface</td>
+                    <td>SAP GUI Scripting API</td>
+                    <td>Transaction automation</td>
+                    <td>GuiSession, GuiComponent</td>
+                </tr>
+                <tr>
+                    <td>Database</td>
+                    <td>Excel Worksheets</td>
+                    <td>Local transaction storage</td>
+                    <td>Append-only model</td>
+                </tr>
+                <tr>
+                    <td>Backup</td>
+                    <td>Network File Share / SharePoint</td>
+                    <td>Remote redundancy</td>
+                    <td>Automatic sync post-transaction</td>
+                </tr>
+                <tr>
+                    <td>Queuing</td>
+                    <td>FIFO Collections</td>
+                    <td>Batch processing</td>
+                    <td>Custom FIFO class</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section" id="security">
+            <h2>🔒 Security & Compliance</h2>
+            
+            <h3>Security Features</h3>
+            <ul>
+                <li><strong>Authentication:</strong> Windows AD integration (inherits file share permissions)</li>
+                <li><strong>User Tracking:</strong> Automatic capture of operator via Environ$("UserName")</li>
+                <li><strong>Audit Trail:</strong> Complete timestamp + operator logging for every transaction</li>
+                <li><strong>Data Integrity:</strong> Append-only after SAP posting (no deletions)</li>
+                <li><strong>Network Security:</strong> File share backups with access controls</li>
+                <li><strong>SAP Integration:</strong> Inherits user's SAP authorization level</li>
+            </ul>
+            
+            <h3>Data Protection Strategy</h3>
+            <ul>
+                <li><strong>At Rest:</strong> Relies on file system permissions (no encryption)</li>
+                <li><strong>In Transit:</strong> SAP GUI Scripting over secure session</li>
+                <li><strong>Backup:</strong> Network share with automatic redundancy</li>
+                <li><strong>Recovery:</strong> Offline queuing ensures no data loss</li>
+            </ul>
+            
+            <h3>Error Handling & Recovery</h3>
+            <ul>
+                <li>Centralized StdErrorHandler for all errors</li>
+                <li>Offline mode fallback when SAP unavailable</li>
+                <li>FIFO queue ensures ordered batch processing</li>
+                <li>Automatic retry logic for transient failures</li>
+                <li>User notifications with actionable error messages</li>
+            </ul>
+        </div>
+        
+        <div class="section" id="data">
+            <h2>📊 Data Models</h2>
+            
+            <h3>Universal Database Schema</h3>
+            <p>All applications follow a consistent data model:</p>
+            
+            <h4>Sheet1: Transaction Log</h4>
+            <ul>
+                <li><strong>Column A:</strong> Identifier (Furnace/Timestamp)</li>
+                <li><strong>Column B:</strong> Timestamp (auto-NOW())</li>
+                <li><strong>Column C:</strong> Pallet/Container ID</li>
+                <li><strong>Column D:</strong> SAP Process Order</li>
+                <li><strong>Column E:</strong> Item Number</li>
+                <li><strong>Column F:</strong> Operator ID</li>
+                <li><strong>Column G+:</strong> App-specific fields (batches, measurements, etc.)</li>
+            </ul>
+            
+            <h4>Sheet2: Configuration</h4>
+            <ul>
+                <li>Online/Offline mode flag</li>
+                <li>Last used form values (furnace, item, operator)</li>
+                <li>Cached material specifications</li>
+                <li>Equipment assignments & furnace data</li>
+                <li>Dimension ranges (mins/maxes)</li>
+            </ul>
+            
+            <h4>Optional: SandTrans Sheet</h4>
+            <ul>
+                <li>Material number, batch, quantity</li>
+                <li>Source location (0015/0100/0400)</li>
+                <li>Destination furnace</li>
+                <li>Status flag (Pending/Completed)</li>
+            </ul>
+        </div>
+        
+        <div class="section" id="workflows">
+            <h2>🔄 Key Workflows</h2>
+            
+            <h3>Standard Transaction Flow (All Apps)</h3>
+            <ol style="font-size: 1.05em; line-height: 2;">
+                <li><strong>User Opens Application:</strong> Load config from Sheet2</li>
+                <li><strong>Determine Mode:</strong> Check online/offline status</li>
+                <li><strong>Display Form:</strong> Show appropriate UserForm with defaults</li>
+                <li><strong>User Enters Data:</strong> Input all required fields</li>
+                <li><strong>Validation:</strong> checkInputs() validates all entries</li>
+                <li><strong>Save Locally:</strong> Append row to Sheet1</li>
+                <li><strong>Create Backup:</strong> Copy to network share</li>
+                <li><strong>If Online:</strong> Execute SAP transactions (COR6, MIGO, etc.)</li>
+                <li><strong>If Offline:</strong> Queue for batch processing</li>
+                <li><strong>Completion:</strong> Display success/error, prompt to continue</li>
+            </ol>
+            
+            <h3>Offline-to-Online Sync</h3>
+            <ol style="font-size: 1.05em; line-height: 2;">
+                <li>User works in offline mode (form displays yellow background)</li>
+                <li>Transactions saved to local sheet + SandTrans queue</li>
+                <li>When SAP available, supervisor initiates batch processing</li>
+                <li>FIFO queue processed sequentially in order</li>
+                <li>Each transaction: COR6 post → MIGO → HU creation (if applicable)</li>
+                <li>All transactions synced to remote backup</li>
+                <li>Queue marked complete</li>
+            </ol>
+        </div>
+        
+        <div class="section" id="support">
+            <h2>❓ Documentation Index</h2>
+            
+            <h3>Available Documentation Files</h3>
+            <div class="nav-grid" style="margin-top: 20px;">
+                <a href="01-Overview.html" class="nav-link">📘 01-Overview</a>
+                <a href="02-BakeApplication.html" class="nav-link">🔥 02-Bake</a>
+                <a href="03-HVPack.html" class="nav-link">📦 03-HVPack</a>
+                <a href="04-LampRodDraw.html" class="nav-link">🎣 04-LampRod</a>
+                <a href="05-SerializedMaterial.html" class="nav-link">📐 05-Serialized</a>
+                <a href="06-SharedArchitecture.html" class="nav-link">⚙️ 06-Shared</a>
+                <a href="07-DataModels.html" class="nav-link">📊 07-Data</a>
+                <a href="08-TechnicalStack.html" class="nav-link">💻 08-Tech</a>
+                <a href="09-Security.html" class="nav-link">🔒 09-Security</a>
+                <a href="10-UserJourneys.html" class="nav-link">👥 10-Journeys</a>
+            </div>
+            
+            <h3 style="margin-top: 40px;">Getting Started</h3>
+            <ol style="font-size: 1.05em; line-height: 2;">
+                <li><strong>Start Here:</strong> Read 01-Overview.html for system context</li>
+                <li><strong>Application Deep Dive:</strong> Read app-specific documents (02-05)</li>
+                <li><strong>Architecture:</strong> Review 06-SharedArchitecture for design patterns</li>
+                <li><strong>Implementation:</strong> Consult 07-Data, 08-Tech for technical details</li>
+                <li><strong>Security:</strong> Review 09-Security for compliance & access control</li>
+                <li><strong>Operations:</strong> Check 10-UserJourneys for workflow details</li>
+            </ol>
+            
+            <h3 style="margin-top: 40px;">Key Resources</h3>
+            <ul>
+                <li><strong>Source Code:</strong> VBA_Exports folder contains all module files</li>
+                <li><strong>Excel Files:</strong> Excel Files folder contains distributed .xlsm files</li>
+                <li><strong>Documentation:</strong> Copilot Documentation folder (this package)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>📊 System Statistics at a Glance</h2>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Total Applications</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Total Modules</td>
+                    <td>78</td>
+                </tr>
+                <tr>
+                    <td>Total Code Size</td>
+                    <td>~1,400 KB</td>
+                </tr>
+                <tr>
+                    <td>Shared Classes</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>User Forms</td>
+                    <td>4 (with 10+ sub-forms)</td>
+                </tr>
+                <tr>
+                    <td>SAP Transactions</td>
+                    <td>7 automated</td>
+                </tr>
+                <tr>
+                    <td>Database Sheets</td>
+                    <td>5+ per workbook</td>
+                </tr>
+                <tr>
+                    <td>Defect Codes</td>
+                    <td>13 (Serialized Material)</td>
+                </tr>
+                <tr>
+                    <td>Measurement Points</td>
+                    <td>12 total (Serialized: 4 OD + 8 Wall)</td>
+                </tr>
+                <tr>
+                    <td>Furnace Channels</td>
+                    <td>Up to 4 parallel</td>
+                </tr>
+            </table>
+        </div>
+        
+        <footer>
+            <h3>📖 VBA-Web Manufacturing Suite Documentation</h3>
+            <p><strong>Generated:</strong> March 30, 2026 | <strong>Version:</strong> 1.0 | <strong>Status:</strong> Complete</p>
+            <p><strong>Total Documentation Pages:</strong> 10 HTML files covering all applications and architecture</p>
+            <p style="margin-top: 20px; color: #999; font-size: 0.9em;">
+                This documentation package provides comprehensive technical guidance for developers, system administrators, and technical users working with the VBA-Web manufacturing platform.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

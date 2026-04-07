@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Architecture Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .code-block { background: #f4f4f4; padding: 15px; border-left: 4px solid #667eea; margin: 15px 0; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚙️ Shared Architecture</h1>
+            <p style="color: #666; font-size: 1.1em;">Cross-Application Infrastructure & Common Patterns</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>📦 Shared Class Library (9 Core Classes)</h2>
+            <table>
+                <tr>
+                    <th>Class</th>
+                    <th>Size Range</th>
+                    <th>Apps Used</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><strong>clsMaterial</strong></td>
+                    <td>14-23 KB</td>
+                    <td>All 4</td>
+                    <td>Material master data lookups</td>
+                </tr>
+                <tr>
+                    <td><strong>clsCOR6</strong></td>
+                    <td>19-31 KB</td>
+                    <td>All 4</td>
+                    <td>Production confirmation automation</td>
+                </tr>
+                <tr>
+                    <td><strong>clsCOR3</strong></td>
+                    <td>2.6-4.2 KB</td>
+                    <td>LampRod, Serialized</td>
+                    <td>Production order retrieval</td>
+                </tr>
+                <tr>
+                    <td><strong>clsCOOISPI</strong></td>
+                    <td>5-12 KB</td>
+                    <td>All 4</td>
+                    <td>Production operation details</td>
+                </tr>
+                <tr>
+                    <td><strong>clsMB52</strong></td>
+                    <td>2.9-6.2 KB</td>
+                    <td>LampRod, Serialized</td>
+                    <td>Stock availability queries</td>
+                </tr>
+                <tr>
+                    <td><strong>clsHU</strong></td>
+                    <td>6.4-10.3 KB</td>
+                    <td>HVPack, Serialized</td>
+                    <td>Handling unit operations</td>
+                </tr>
+                <tr>
+                    <td><strong>clsFIFO</strong></td>
+                    <td>9.2-10.5 KB</td>
+                    <td>All 4</td>
+                    <td>FIFO queue management</td>
+                </tr>
+                <tr>
+                    <td><strong>clsSAPSession</strong></td>
+                    <td>3.4-3.6 KB</td>
+                    <td>All 4</td>
+                    <td>SAP connection management</td>
+                </tr>
+                <tr>
+                    <td><strong>clsStatus</strong></td>
+                    <td>8.4-8.9 KB</td>
+                    <td>All 4</td>
+                    <td>Status messaging & updates</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🏗️ Layered Architecture</h2>
+            <div class="code-block">
+PRESENTATION LAYER (UserForms)
+    PackForm | UserForm1 | BakeForm | SandForm
+    
+BUSINESS LOGIC LAYER (Module2)
+    offlineProcess() | onlineProcess() | saveRemoteData()
+    
+CLASS LIBRARY LAYER (9 Shared Classes)
+    clsMaterial | clsCOR6 | clsStatus | clsFIFO | etc.
+    
+SAP INTEGRATION LAYER (GUI Scripting)
+    COR6 | COR3 | COOISPI | MB52 | MIGO | HUMO
+    
+DATA PERSISTENCE LAYER (Excel + Network)
+    Sheet1 | Sheet2 | SandTrans | Network Backup
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>💾 Data Persistence Strategy</h2>
+            <h3>Local Storage (Immediate)</h3>
+            <ul>
+                <li><strong>Sheet1:</strong> Transaction log (append-only)</li>
+                <li><strong>Sheet2:</strong> Configuration & cache</li>
+                <li><strong>SandTrans:</strong> Offline queue (optional)</li>
+                <li>Auto-save after each transaction</li>
+            </ul>
+            
+            <h3>Remote Backup (Eventual Consistency)</h3>
+            <ul>
+                <li>Network share location</li>
+                <li>Automatic sync after transaction</li>
+                <li>Complete copy of workbook</li>
+                <li>Timestamp-based naming</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔐 Security Model</h2>
+            <ul>
+                <li><strong>Authentication:</strong> Windows AD integration</li>
+                <li><strong>User Tracking:</strong> Automatic operator ID capture</li>
+                <li><strong>Audit Trail:</strong> Timestamp + operator logging</li>
+                <li><strong>Data Integrity:</strong> Append-only after SAP posting</li>
+                <li><strong>Error Handling:</strong> Centralized StdErrorHandler</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>📖 Shared Architecture Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

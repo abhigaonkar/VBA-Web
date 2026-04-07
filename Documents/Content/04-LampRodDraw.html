@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamp Rod Draw Application Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎣 Lamp Rod Draw Application</h1>
+            <p style="color: #666; font-size: 1.1em;">Non-Serialized Production Tracking with Sand Management</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>📋 Application Description</h2>
+            <p>The Lamp Rod Draw application is the <strong>LARGEST application (484.7 KB)</strong> in the suite. It manages:</p>
+            <ul>
+                <li>Furnace drawing operations for non-serialized tube production</li>
+                <li>Real-time sand inventory management via MB52 queries</li>
+                <li>Multi-location sand transfers (0015, 0100, 0400)</li>
+                <li>Equipment hours allocation</li>
+                <li>Scrap recording (up to 4 defect entries)</li>
+                <li>Quality control & non-conformity flagging</li>
+            </ul>
+            
+            <div class="highlight">
+                <strong>📊 Statistics:</strong>
+                <ul>
+                    <li>Size: 484.7 KB (LARGEST)</li>
+                    <li>Modules: 18 files</li>
+                    <li>Form: UserForm1 (24.0 KB)</li>
+                    <li>Classes: 12 + FIFO</li>
+                    <li>Furnaces: 4 (FR11-FR14)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🏭 Furnace Equipment Mapping</h2>
+            <table>
+                <tr>
+                    <th>Furnace</th>
+                    <th>Code</th>
+                    <th>Equipment</th>
+                    <th>Printer</th>
+                </tr>
+                <tr>
+                    <td>Furnace 1</td>
+                    <td>FR11</td>
+                    <td>Equipment11</td>
+                    <td>HEBPRNP054</td>
+                </tr>
+                <tr>
+                    <td>Furnace 2</td>
+                    <td>FR12</td>
+                    <td>Equipment12</td>
+                    <td>HEBPRNP055</td>
+                </tr>
+                <tr>
+                    <td>Furnace 3</td>
+                    <td>FR13</td>
+                    <td>Equipment13</td>
+                    <td>HEBPRNP056</td>
+                </tr>
+                <tr>
+                    <td>Furnace 4</td>
+                    <td>FR14</td>
+                    <td>Equipment14</td>
+                    <td>HEBPRNP054</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Draw & Sand Transfer Workflow</h2>
+            <h3>Production Draw:</h3>
+            <ol style="line-height: 1.8;">
+                <li>Select furnace (FR11-14)</li>
+                <li>Enter process order</li>
+                <li>Enter production metrics</li>
+                <li>Optional: Record scrap (0-4 entries)</li>
+                <li>Submit transaction</li>
+                <li>Save locally + backup</li>
+                <li>If online: COR6 + MIGO posting</li>
+            </ol>
+            
+            <h3>Sand Transfer:</h3>
+            <ol style="line-height: 1.8;">
+                <li>Click "Transfer Sand"</li>
+                <li>Enter sand item & batch</li>
+                <li>If online: MB52 query for stock</li>
+                <li>Select source location</li>
+                <li>Enter transfer quantity</li>
+                <li>Confirm & execute (or queue if offline)</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Key Classes</h2>
+            <table>
+                <tr>
+                    <th>Class</th>
+                    <th>Size</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>clsCOR6.bas</td>
+                    <td>30.0 KB</td>
+                    <td>LARGEST CLASS</td>
+                </tr>
+                <tr>
+                    <td>clsMaterial.bas</td>
+                    <td>23.0 KB</td>
+                    <td>Material specs</td>
+                </tr>
+                <tr>
+                    <td>clsMB52.bas</td>
+                    <td>6.2 KB</td>
+                    <td>Stock queries</td>
+                </tr>
+                <tr>
+                    <td>clsFIFO.bas</td>
+                    <td>9.2 KB</td>
+                    <td>Batch sequencing</td>
+                </tr>
+            </table>
+        </div>
+        
+        <footer>
+            <p>📖 Lamp Rod Draw Application Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Stack Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💻 Technical Stack</h1>
+            <p style="color: #666; font-size: 1.1em;">Technology & Infrastructure Details</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>🛠️ Technology Components</h2>
+            <table>
+                <tr>
+                    <th>Layer</th>
+                    <th>Technology</th>
+                    <th>Purpose</th>
+                    <th>Version/Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Language</strong></td>
+                    <td>VBA (Visual Basic for Applications)</td>
+                    <td>Application development</td>
+                    <td>Excel 2016+</td>
+                </tr>
+                <tr>
+                    <td><strong>UI Framework</strong></td>
+                    <td>Excel UserForms</td>
+                    <td>Data entry interface</td>
+                    <td>Native Excel controls</td>
+                </tr>
+                <tr>
+                    <td><strong>SAP Interface</strong></td>
+                    <td>SAP GUI Scripting API</td>
+                    <td>Transaction automation</td>
+                    <td>GuiSession, GuiComponent</td>
+                </tr>
+                <tr>
+                    <td><strong>Database</strong></td>
+                    <td>Excel Worksheets</td>
+                    <td>Local storage</td>
+                    <td>Append-only model</td>
+                </tr>
+                <tr>
+                    <td><strong>Backup</strong></td>
+                    <td>Network File Share</td>
+                    <td>Remote redundancy</td>
+                    <td>Automatic post-transaction</td>
+                </tr>
+                <tr>
+                    <td><strong>Queuing</strong></td>
+                    <td>FIFO Collections</td>
+                    <td>Batch processing</td>
+                    <td>Custom FIFO class</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔗 SAP Integration</h2>
+            <table>
+                <tr>
+                    <th>Transaction</th>
+                    <th>Purpose</th>
+                    <th>Method</th>
+                </tr>
+                <tr>
+                    <td><strong>COR6</strong></td>
+                    <td>Production Confirmation</td>
+                    <td>GUI Scripting with material application</td>
+                </tr>
+                <tr>
+                    <td><strong>COR3</strong></td>
+                    <td>Production Order Info</td>
+                    <td>Order header & operation details</td>
+                </tr>
+                <tr>
+                    <td><strong>COOISPI</strong></td>
+                    <td>Production Operations</td>
+                    <td>Operation-level data retrieval</td>
+                </tr>
+                <tr>
+                    <td><strong>MB52</strong></td>
+                    <td>Stock Overview</td>
+                    <td>Real-time stock queries by batch</td>
+                </tr>
+                <tr>
+                    <td><strong>MIGO</strong></td>
+                    <td>Goods Movement</td>
+                    <td>Goods receipt & issue transactions</td>
+                </tr>
+                <tr>
+                    <td><strong>HUMO</strong></td>
+                    <td>Handling Units</td>
+                    <td>HU creation & completion</td>
+                </tr>
+                <tr>
+                    <td><strong>/nzpplabel</strong></td>
+                    <td>Label Printing</td>
+                    <td>Custom label printing</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Code Statistics</h2>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Total Applications</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Total Modules</td>
+                    <td>78</td>
+                </tr>
+                <tr>
+                    <td>Total Code Size</td>
+                    <td>~1,400 KB</td>
+                </tr>
+                <tr>
+                    <td>Shared Classes</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>Class Size Range</td>
+                    <td>2.6-31.3 KB</td>
+                </tr>
+                <tr>
+                    <td>Forms</td>
+                    <td>4 primary + 10+ sub-forms</td>
+                </tr>
+                <tr>
+                    <td>Database Sheets</td>
+                    <td>5+ per workbook</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🏢 Deployment Model</h2>
+            <ul>
+                <li><strong>Distribution:</strong> One .xlsm per application</li>
+                <li><strong>Storage:</strong> Network shared drive or SharePoint</li>
+                <li><strong>Users:</strong> Manufacturing floor operators</li>
+                <li><strong>Requirements:</strong> Excel 2016+, SAP GUI installed</li>
+                <li><strong>Network:</strong> Access to network backup location</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>📖 Technical Stack Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

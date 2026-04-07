@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bake Application Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 Bake Application</h1>
+            <p style="color: #666; font-size: 1.1em;">Vacuum Furnace Baking Operations & Sand Transfer Management</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>📋 Application Description</h2>
+            <p>The Bake Application manages vacuum furnace baking operations for semi-finished materials. It supports:</p>
+            <ul>
+                <li><strong>Serialized Bake:</strong> Tracked batches with full genealogy</li>
+                <li><strong>Non-Serialized Bake:</strong> Standard production runs with quantity tracking</li>
+                <li><strong>Sand Transfer:</strong> Real-time material movements between furnaces</li>
+                <li><strong>Hamper Packing:</strong> Final packaging for shipment</li>
+                <li><strong>Quality Control:</strong> Non-conformity flagging and defect recording</li>
+            </ul>
+            
+            <div class="highlight">
+                <strong>📊 Statistics:</strong>
+                <ul>
+                    <li>Size: 202.7 KB</li>
+                    <li>Modules: 19 files</li>
+                    <li>Forms: BakeForm, NotSerialized, SandForm</li>
+                    <li>Classes: 10 (clsMaterial, clsCOR6, clsHU, etc.)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>💻 Technology Stack</h2>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Technology</th>
+                </tr>
+                <tr>
+                    <td>Frontend</td>
+                    <td>Excel VBA UserForms</td>
+                </tr>
+                <tr>
+                    <td>Backend</td>
+                    <td>VBA Class Modules</td>
+                </tr>
+                <tr>
+                    <td>SAP Integration</td>
+                    <td>GUI Scripting API</td>
+                </tr>
+                <tr>
+                    <td>Data Storage</td>
+                    <td>Excel Worksheets</td>
+                </tr>
+                <tr>
+                    <td>Backup</td>
+                    <td>Network Share / SharePoint</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>📐 Data Model</h2>
+            <h3>Sheet1: Transaction Log</h3>
+            <ul>
+                <li>Furnace / Timestamp / Operator</li>
+                <li>Pallet Card / Process Order / Item</li>
+                <li>Batch1-8 / Bake Hours</li>
+                <li>Hamper Config / Strapping / Returns</li>
+                <li>SAP Posted Flag</li>
+            </ul>
+            
+            <h3>Sheet2: Configuration</h3>
+            <ul>
+                <li>Online/Offline mode</li>
+                <li>Last used values (defaults)</li>
+                <li>Furnace equipment assignments</li>
+                <li>Material cache & specs</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 User Workflow</h2>
+            <ol style="line-height: 1.8;">
+                <li>Open BakeApplication.xlsm</li>
+                <li>Select furnace and mode (online/offline)</li>
+                <li>Enter pallet card number</li>
+                <li>Enter batch numbers (1-15)</li>
+                <li>Enter bake hours</li>
+                <li>Select hamper & strapping</li>
+                <li>Submit transaction</li>
+                <li>Save locally + backup to network</li>
+                <li>If online: Post COR6 to SAP</li>
+                <li>Display completion</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Key Modules</h2>
+            <table>
+                <tr>
+                    <th>Module</th>
+                    <th>Size</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>BakeForm.bas</td>
+                    <td>13.0 KB</td>
+                    <td>Serialized bake UI</td>
+                </tr>
+                <tr>
+                    <td>NotSerialized.bas</td>
+                    <td>13.3 KB</td>
+                    <td>Non-serialized bake</td>
+                </tr>
+                <tr>
+                    <td>SandForm.bas</td>
+                    <td>7.5 KB</td>
+                    <td>Sand transfer UI</td>
+                </tr>
+                <tr>
+                    <td>Module2.bas</td>
+                    <td>33.3 KB</td>
+                    <td>SAP integration</td>
+                </tr>
+                <tr>
+                    <td>clsCOR6.bas</td>
+                    <td>23.0 KB</td>
+                    <td>Production confirmation</td>
+                </tr>
+            </table>
+        </div>
+        
+        <footer>
+            <p>📖 Bake Application Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

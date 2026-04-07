@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HV Pack Application Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📦 HV Pack Application</h1>
+            <p style="color: #666; font-size: 1.1em;">High-Voltage Material Packing & Hamper Management</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>📋 Application Description</h2>
+            <p>The HV Pack application manages the final packaging stage of high-voltage finished materials. It handles:</p>
+            <ul>
+                <li>Packing finished items into hampers</li>
+                <li>Multi-tube batch management (up to 8 batches)</li>
+                <li>Strapping material application</li>
+                <li>Optional return hamper management</li>
+                <li>Waffle board stacking</li>
+                <li>Handling unit creation (HUMO)</li>
+                <li>Label printing for shipment</li>
+            </ul>
+            
+            <div class="highlight">
+                <strong>📊 Statistics:</strong>
+                <ul>
+                    <li>Size: 183.4 KB</li>
+                    <li>Modules: 16 files</li>
+                    <li>Form: PackForm (19.2 KB)</li>
+                    <li>Classes: 8 major classes</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📐 Data Model</h2>
+            <h3>Packing Transaction Structure</h3>
+            <ul>
+                <li>Timestamp, Operator, Process Order</li>
+                <li>Item Number (finished item)</li>
+                <li>Batch1-Batch8 (up to 8 batch numbers)</li>
+                <li>Measurements (length, bow)</li>
+                <li>Hamper Details (ID, qty, location, movement type)</li>
+                <li>Strapping (item, qty=24×hamper_qty)</li>
+                <li>Return Hamper (optional)</li>
+                <li>Waffle Board (optional, item 124451)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Packing Workflow</h2>
+            <ol style="line-height: 1.8;">
+                <li>Enter finished item number</li>
+                <li>Enter batch numbers (duplicate check)</li>
+                <li>Enter measurements per batch</li>
+                <li>For each batch: Submit tube</li>
+                <li>After last batch: Show hamper options</li>
+                <li>Select hamper & strapping</li>
+                <li>Optional: Add return hamper</li>
+                <li>Optional: Add waffle boards</li>
+                <li>Submit hamper</li>
+                <li>SAP: COR6 + MIGO + HUMO + Label print</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Key Modules</h2>
+            <table>
+                <tr>
+                    <th>Module</th>
+                    <th>Size</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>PackForm.bas</td>
+                    <td>19.2 KB</td>
+                    <td>Main packing UI</td>
+                </tr>
+                <tr>
+                    <td>Module2.bas</td>
+                    <td>41.1 KB</td>
+                    <td>SAP orchestration (LARGEST)</td>
+                </tr>
+                <tr>
+                    <td>clsNewCOR6.bas</td>
+                    <td>19.9 KB</td>
+                    <td>Production confirmation</td>
+                </tr>
+                <tr>
+                    <td>clsHU.bas</td>
+                    <td>10.3 KB</td>
+                    <td>Handling unit operations</td>
+                </tr>
+            </table>
+        </div>
+        
+        <footer>
+            <p>📖 HV Pack Application Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Journeys Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdance, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        h3 { color: #764ba2; margin-top: 20px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ol { margin-left: 20px; margin-top: 10px; line-height: 1.8; }
+        li { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👥 User Journeys</h1>
+            <p style="color: #666; font-size: 1.1em;">Complete Operational Workflows & Processes</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>🔥 Bake Application Journeys</h2>
+            
+            <h3>Journey 1: Serialized Bake Load</h3>
+            <ol>
+                <li>Operator opens BakeApplication.xlsm</li>
+                <li>Select furnace and check online/offline status</li>
+                <li>Enter pallet card number (triggers batch history lookup)</li>
+                <li>Enter batch numbers (1-15) with duplicate detection</li>
+                <li>Enter bake hours total</li>
+                <li>Select hamper and strapping item</li>
+                <li>Optional: Add return hamper & waffle boards</li>
+                <li>Click Submit</li>
+                <li>System validates all inputs</li>
+                <li>Save to local sheet</li>
+                <li>Create network backup</li>
+                <li>If online: Post COR6 to SAP & create HU</li>
+                <li>Display completion message</li>
+            </ol>
+            
+            <h3>Journey 2: Sand Transfer</h3>
+            <ol>
+                <li>Click "Sand Transfer" button</li>
+                <li>Enter sand material item number</li>
+                <li>Enter sand batch number</li>
+                <li>If online: Query MB52 for stock availability</li>
+                <li>System displays locations (0015, 0100, 0400)</li>
+                <li>Select source location</li>
+                <li>Enter transfer quantity (kg)</li>
+                <li>Confirm transfer details</li>
+                <li>Execute MIGO movement (if online) or queue (if offline)</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>📦 HV Pack Application Journey</h2>
+            
+            <h3>Complete Packing Workflow</h3>
+            <ol>
+                <li>Operator opens HVPack.xlsm</li>
+                <li>Enter finished item number</li>
+                <li>System auto-looks up description (if online)</li>
+                <li>FOR EACH BATCH (1-8):
+                    <ul>
+                        <li>Enter batch number</li>
+                        <li>System detects duplicates</li>
+                        <li>Enter measurements (length, bow)</li>
+                        <li>Click "Complete Tube"</li>
+                        <li>Save single tube record</li>
+                        <li>If online: Post individual COR6</li>
+                    </ul>
+                </li>
+                <li>After last tube: Display hamper configuration options</li>
+                <li>Select hamper from dropdown</li>
+                <li>Enter quantity packed</li>
+                <li>System calculates strapping qty (24× hamper_qty)</li>
+                <li>Optional: Add return hamper & qty</li>
+                <li>Optional: Add waffle boards</li>
+                <li>Click "Submit Hamper"</li>
+                <li>Validation of all hamper fields</li>
+                <li>Build material application array</li>
+                <li>Save to local sheet</li>
+                <li>Create network backup</li>
+                <li>If online: COR6 + MIGO + HUMO + Label print</li>
+                <li>Display completion</li>
+                <li>Clear form for next pallet</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>🎣 Lamp Rod Draw Journey</h2>
+            
+            <h3>Production Draw & Sand Management</h3>
+            <ol>
+                <li>Operator opens LampRodDraw.xlsm</li>
+                <li>Select furnace (FR11-14)</li>
+                <li>Enter process order number</li>
+                <li>System queries COR3 for item details (if online)</li>
+                <li>Display item description & specifications</li>
+                <li>Enter production data:
+                    <ul>
+                        <li>Pallet card</li>
+                        <li>Technician ID</li>
+                        <li>Quantity produced</li>
+                        <li>Labor hours</li>
+                    </ul>
+                </li>
+                <li>Optional: Record scrap/non-conformity (0-4 entries)</li>
+                <li>For each scrap entry: Select reason code</li>
+                <li>Click Submit</li>
+                <li>Validate all inputs</li>
+                <li>Save locally</li>
+                <li>Create backup</li>
+                <li>If online: Post COR6 confirmation</li>
+                <li>Update equipment hours</li>
+                <li>If sand needed: Execute sand transfer</li>
+                <li>Display completion</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>📐 Serialized Material Journey</h2>
+            
+            <h3>Precision Tube Entry Workflow</h3>
+            <ol>
+                <li>Operator opens SerializedMaterial.xlsm</li>
+                <li>Select furnace channel (Green/Red/Blue/Yellow page)</li>
+                <li>Enter pallet card number</li>
+                <li>Enter process order</li>
+                <li>System auto-looks up item description & specs</li>
+                <li>MEASUREMENT ENTRY:
+                    <ul>
+                        <li>Enter OD1 measurement → Auto-validate range</li>
+                        <li>Enter OD2, OD3, OD4 (same validation)</li>
+                        <li>Enter WALL1-WALL8 measurements</li>
+                        <li>System auto-formats to 2 decimals</li>
+                        <li>Color feedback: Green (valid) / Red (out of range)</li>
+                    </ul>
+                </li>
+                <li>Enter bow/curvature value (decimal only)</li>
+                <li>Enter exact length</li>
+                <li>QUALITY CHECK:
+                    <ul>
+                        <li>Toggle non-conformity flag if defective</li>
+                        <li>If defective: Select from 13 defect codes</li>
+                        <li>If certain codes: Measurements auto-hidden</li>
+                        <li>Select material routing (Webb/Scrap-D/Plate/Trash)</li>
+                    </ul>
+                </li>
+                <li>Click Submit Tube</li>
+                <li>Validation of all fields</li>
+                <li>Generate tube serial number</li>
+                <li>Save to local sheet</li>
+                <li>Create network backup</li>
+                <li>If online:
+                    <ul>
+                        <li>Post COR6 production confirmation</li>
+                        <li>Apply dimensions to SAP</li>
+                        <li>Display tube serial in alert</li>
+                        <li>Update backup</li>
+                    </ul>
+                </li>
+                <li>Ready for next tube</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>⚡ Offline-to-Online Recovery</h2>
+            
+            <h3>Batch Processing After SAP Outage</h3>
+            <ol>
+                <li>During SAP outage: Operator works in offline mode</li>
+                <li>Transactions saved to local sheet + SandTrans queue</li>
+                <li>Form background shows yellow (offline indicator)</li>
+                <li>When SAP available: Supervisor initiates batch processing</li>
+                <li>System processes FIFO queue sequentially</li>
+                <li>For each queued transaction:
+                    <ul>
+                        <li>Retrieve transaction from queue</li>
+                        <li>Execute COR6 posting</li>
+                        <li>Apply material movements (MIGO)</li>
+                        <li>Create HU if applicable</li>
+                        <li>Mark queue item completed</li>
+                    </ul>
+                </li>
+                <li>All transactions synced to remote backup</li>
+                <li>Queue cleared</li>
+                <li>Operations resume normal mode</li>
+            </ol>
+        </div>
+        
+        <footer>
+            <p>📖 User Journeys Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

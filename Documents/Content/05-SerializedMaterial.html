@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serialized Material Application Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; }
+        th { background: #667eea; color: white; padding: 15px; text-align: left; }
+        td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Serialized Material</h1>
+            <p style="color: #666; font-size: 1.1em;">Precision Tube Drawing with Dimensional Tracking</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>📋 Application Description</h2>
+            <p>The Serialized Material application is the most <strong>SPECIALIZED</strong> with the <strong>LARGEST FORM (53.0 KB)</strong>. It manages:</p>
+            <ul>
+                <li>Precision tube drawing with 4-point OD measurements</li>
+                <li>Wall thickness: 8-point measurements</li>
+                <li>Bow/Curvature tracking</li>
+                <li>Automatic tube serial assignment per furnace</li>
+                <li>Quality control: 13 defect codes</li>
+                <li>Multi-furnace: 4-page interface (Green/Red/Blue/Yellow)</li>
+                <li>Material routing: Webb/Scrap-D/Plate/Trash</li>
+            </ul>
+            
+            <div class="highlight">
+                <strong>📊 Statistics:</strong>
+                <ul>
+                    <li>Size: 266.9 KB</li>
+                    <li>Modules: 21 files</li>
+                    <li>Largest Form: UserForm1 (53.0 KB)</li>
+                    <li>Furnace Channels: 4 (MultiPage)</li>
+                    <li>Measurement Points: 12 (4 OD + 8 WALL)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Measurement System</h2>
+            <h3>OD (Outer Diameter)</h3>
+            <ul>
+                <li>4-point measurements: OD1, OD2, OD3, OD4</li>
+                <li>Range: ODMin-10 to ODMax+10</li>
+                <li>Validation: Green (valid), Red (out of range)</li>
+            </ul>
+            
+            <h3>Wall Thickness</h3>
+            <ul>
+                <li>8-point measurements: WALL1-WALL8</li>
+                <li>Range: WallMin-3 to WallMax+3</li>
+                <li>Auto-formatted to 2 decimals</li>
+            </ul>
+            
+            <h3>Bow/Curvature</h3>
+            <ul>
+                <li>Decimal value (numerics + single decimal point)</li>
+                <li>Keypress restriction for validation</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🎨 Furnace Channels (MultiPage)</h2>
+            <table>
+                <tr>
+                    <th>Page</th>
+                    <th>Color</th>
+                    <th>Item</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td>Page 0</td>
+                    <td>Green</td>
+                    <td>Standard</td>
+                    <td>Main production</td>
+                </tr>
+                <tr>
+                    <td>Page 1</td>
+                    <td>Red</td>
+                    <td>84130 Item</td>
+                    <td>Specialized</td>
+                </tr>
+                <tr>
+                    <td>Page 2</td>
+                    <td>Blue</td>
+                    <td>215 Item</td>
+                    <td>Secondary</td>
+                </tr>
+                <tr>
+                    <td>Page 3</td>
+                    <td>Yellow</td>
+                    <td>Miscellaneous</td>
+                    <td>Other items</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔀 Defect Code System (13 Categories)</h2>
+            <table>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Hide Measurements</th>
+                </tr>
+                <tr>
+                    <td>BATW</td>
+                    <td>Batch Problem</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>BBBL</td>
+                    <td>Bubble</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>BLSX</td>
+                    <td>Bleed/Sax</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>CLEG</td>
+                    <td>Collapsed</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>DBUB</td>
+                    <td>Double Bubble</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>DCOL</td>
+                    <td>Discoloration</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>Gray</td>
+                    <td>Gray/Ash</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>METL</td>
+                    <td>Metal</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>METS</td>
+                    <td>Metal Surface</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>MMP7</td>
+                    <td>MMP7 Issue</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>MOLO</td>
+                    <td>Mold Problem</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>MOLY</td>
+                    <td>Molybdenum</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>MSCD</td>
+                    <td>Miscellaneous</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>SACH</td>
+                    <td>Surface Cracks</td>
+                    <td>Yes</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔄 Tube Entry Workflow</h2>
+            <ol style="line-height: 1.8;">
+                <li>Select furnace channel (Page 0-3)</li>
+                <li>Enter pallet card & process order</li>
+                <li>Enter 4-point OD measurements</li>
+                <li>Enter 8-point WALL measurements</li>
+                <li>Enter bow/curvature value</li>
+                <li>Enter exact length</li>
+                <li>Quality check: Toggle non-conformity</li>
+                <li>If defective: Select from 13 defect codes</li>
+                <li>Submit tube</li>
+                <li>Generate tube serial & save</li>
+                <li>If online: Post COR6 with dimensions</li>
+            </ol>
+        </div>
+        
+        <footer>
+            <p>📖 Serialized Material Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>

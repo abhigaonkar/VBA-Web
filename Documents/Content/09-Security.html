@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        h1 { color: #667eea; font-size: 2.5em; }
+        h2 { color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; margin-top: 30px; }
+        .section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        .warning { background: #f8d7da; padding: 15px; border-left: 4px solid #dc3545; margin: 15px 0; }
+        .back-link { display: inline-block; margin: 20px 0; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+        footer { background: white; padding: 20px; border-radius: 10px; text-align: center; margin-top: 30px; color: #666; }
+        ul { margin-left: 20px; margin-top: 10px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 Security & Compliance</h1>
+            <p style="color: #666; font-size: 1.1em;">Security Features, Access Control & Audit Trail</p>
+        </header>
+        
+        <div class="section">
+            <a href="INDEX.html" class="back-link">← Back to Main</a>
+            
+            <h2>🛡️ Security Features</h2>
+            <ul>
+                <li><strong>Authentication:</strong> Windows AD integration (inherits file share permissions)</li>
+                <li><strong>User Tracking:</strong> Automatic capture of operator via Environ$("UserName")</li>
+                <li><strong>Audit Trail:</strong> Complete timestamp + operator logging for every transaction</li>
+                <li><strong>Data Integrity:</strong> Append-only after SAP posting (no deletions)</li>
+                <li><strong>Network Security:</strong> File share backups with access controls</li>
+                <li><strong>SAP Integration:</strong> Inherits user's SAP authorization level</li>
+                <li><strong>Error Logging:</strong> Centralized StdErrorHandler for error tracking</li>
+            </ul>
+            
+            <div class="highlight">
+                <strong>✓ Security Strengths:</strong>
+                <ul>
+                    <li>Complete operator audit trail</li>
+                    <li>Append-only data model prevents tampering</li>
+                    <li>Remote backup redundancy</li>
+                    <li>SAP-level authorization inheritance</li>
+                    <li>Centralized error handling & logging</li>
+                </ul>
+            </div>
+            
+            <div class="warning">
+                <strong>⚠️ Security Considerations:</strong>
+                <ul>
+                    <li>No encryption at rest (file system permissions only)</li>
+                    <li>No role-based access control (RBAC) within application</li>
+                    <li>Network backup requires proper file permissions</li>
+                    <li>SAP GUI Scripting requires valid SAP login on each machine</li>
+                    <li>Limited protection against macro-level attacks</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📋 Data Protection Strategy</h2>
+            
+            <h3>Data at Rest</h3>
+            <ul>
+                <li>Local Excel workbooks: Relies on file system permissions</li>
+                <li>Network backups: Relies on network share ACL settings</li>
+                <li>No file-level encryption implemented</li>
+                <li>SharePoint: Inherits SharePoint encryption/protection</li>
+            </ul>
+            
+            <h3>Data in Transit</h3>
+            <ul>
+                <li>SAP GUI Scripting: Over secure SAP session</li>
+                <li>Network backups: Standard network file copy (unencrypted)</li>
+                <li>Recommendation: Use VPN for remote access</li>
+            </ul>
+            
+            <h3>Data Access Control</h3>
+            <ul>
+                <li>File-level permissions on network share</li>
+                <li>Windows authentication (AD integrated)</li>
+                <li>SAP user credentials for transaction execution</li>
+                <li>No application-level user management</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 Audit & Compliance</h2>
+            
+            <h3>Audit Trail Features</h3>
+            <ul>
+                <li><strong>Timestamp:</strong> Automatic NOW() function on entry</li>
+                <li><strong>Operator ID:</strong> Captured from Windows environment</li>
+                <li><strong>Action:</strong> Transaction type (Bake, Pack, Draw, etc.)</li>
+                <li><strong>Data:</strong> All entered values</li>
+                <li><strong>SAP Status:</strong> Posted flag (Y/N)</li>
+                <li><strong>Error Log:</strong> Errors captured with context</li>
+            </ul>
+            
+            <h3>Compliance Capabilities</h3>
+            <ul>
+                <li><strong>Non-Repudiation:</strong> Timestamp + operator on every entry</li>
+                <li><strong>Data Integrity:</strong> Append-only after SAP posting</li>
+                <li><strong>Traceability:</strong> Complete path from entry to SAP</li>
+                <li><strong>Offline Support:</strong> FIFO queue ensures ordered processing</li>
+                <li><strong>Backup/Recovery:</strong> Remote backups enable recovery</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>⚙️ Error Handling & Recovery</h2>
+            <ul>
+                <li><strong>Centralized Handler:</strong> StdErrorHandler for all errors</li>
+                <li><strong>Offline Fallback:</strong> Queue transactions when SAP unavailable</li>
+                <li><strong>FIFO Processing:</strong> Ensures correct order on batch retry</li>
+                <li><strong>User Notification:</strong> Clear error messages</li>
+                <li><strong>Admin Override:</strong> Supervisor can reprocess failed transactions</li>
+                <li><strong>Logging:</strong> Error context stored for troubleshooting</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>📖 Security & Compliance Documentation</p>
+            <p>Generated: 2026-03-30 | Version: 1.0</p>
+        </footer>
+    </div>
+</body>
+</html>
