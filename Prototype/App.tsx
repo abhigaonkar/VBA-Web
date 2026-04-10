@@ -158,6 +158,8 @@ type LampRodEntryType = {
 // --- Persistence ---
 const LAMPROD_LS_KEY = "lampRodRecordsV3";
 const FURNACES_LS_KEY = "furnaceChannelsV3";
+
+
 function saveRecordsToStorage(records: LampRodEntryType[]) {
   localStorage.setItem(LAMPROD_LS_KEY, JSON.stringify(records));
 }
@@ -170,6 +172,751 @@ function getInitialFurnaceChannels(): FurnaceChannel[] {
     if (stored) return JSON.parse(stored);
   } catch { }
   return OVEN_IDS.map(id => ({ id, status: "Empty" as FurnaceStatus }));
+}
+
+// --- Shows all Bake Sand entries ---
+function BakeSandRecordsView({
+  records,
+  onNew
+}: {
+  records: any[];
+  onNew: () => void;
+}) {
+  // Filter for only "bake" records (you can change the marker if you use a different one)
+  const bakeRecords = records.filter(rec => rec.source === "bake");
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+        <h2 style={{ fontWeight: 800, fontSize: 22, margin: 0 }}>Bake Sand — All Records</h2>
+        <button style={{ ...submitBtn }} onClick={onNew}>+ New Bake Entry</button>
+      </div>
+      {bakeRecords.length === 0 && <div style={{ color: "#64748b", padding: 12, background: "#f3f8fe", borderRadius: 8 }}>No Bake Sand records yet.</div>}
+      {bakeRecords.length > 0 &&
+        <table style={{ width: "100%", background: "#fff", borderRadius: 13, boxShadow: "0 2px 8px #2233610c", border: "1px solid #e2e8f0" }}>
+          <thead>
+            <tr style={{ color: "#8492ac", fontSize: 13, textAlign: "left" }}>
+              <th>Mode</th>
+              <th>Batches / Serials</th>
+              <th>Furnace</th>
+              <th>Start/End Time</th>
+              <th>Hamper</th>
+              <th>Strapping</th>
+              <th>Materials</th>
+              <th>Operator</th>
+              <th>Entered On</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bakeRecords.map((row, idx) => (
+              <tr key={row.id || idx} style={{ borderTop: "1px solid #f1f1f1" }}>
+                <td>
+                  {row.mode === "serialized" ? "Serialized" : "Bulk"}
+                </td>
+                <td>
+                  {Array.isArray(row.batchRows) ? row.batchRows.map(
+                    (br: any) => br.batch + (row.mode === "serialized" && (br.serials?.filter(Boolean).length > 0) ? ` (${br.serials.join(", ")})` : "")
+                  ).join("; ") : "-"}
+                </td>
+                <td>
+                  {Array.isArray(row.batchRows)
+                    ? row.batchRows.map((br: any) => br.furnace).filter(Boolean).join(", ")
+                    : "-"}
+                </td>
+                <td>
+                  {Array.isArray(row.batchRows)
+                    ? row.batchRows.map((br: any) =>
+                      (br.start && br.end) ? `${br.start}–${br.end}` : ""
+                    ).filter(Boolean).join("; ")
+                    : "-"}
+                </td>
+                <td>{row.hamper || "-"}</td>
+                <td>{(row.strappings || []).join(", ")}</td>
+                <td>
+                  {[row.returnHamper ? "Return Hamper" : "", ...(row.waffleBoards || [])].filter(Boolean).join(", ")}
+                </td>
+                <td>{row.operator}</td>
+                <td>{row.createdAt && (new Date(row.createdAt).toLocaleString())}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
+    </div>
+  )
+}
+
+// -- Bake Demo --
+function BakeSandDemo({ user, onSave }: { user: UserType, onSave: (e: any) => void }) {
+  const [mode, setMode] = useState<"serialized" | "nonserialized">("serialized");
+  const [batchRows, setBatchRows] = useState([{ batch: "", serials: [""], start: "", end: "", duration: "", furnace: "" }]);
+  const [packed, setPacked] = useState(false);
+  const [hamper, setHamper] = useState("");
+  const [strappings, setStrappings] = useState<string[]>([]);
+  const [returnHamper, setReturnHamper] = useState(false);
+  const [waffleBoards, setWaffleBoards] = useState<string[]>([]);
+  const [operator, setOperator] = useState(
+  user?.display ?? (user as any)?.username ?? ""
+);
+  const furnaceOptions = ["NV0A", "NV0B", "NV0C", "NV0D"];
+  const hamperOptions = ['66" Hamper', '70" Hamper', '86" Hamper', '110" Hamper'];
+  const strappingItems = ["Steel Band", "Plastic Strap", "Label Tag"];
+  const waffleBoardItems = ["Waffle-1", "Waffle-2", "Waffle-3"];
+
+  // Duplicate batch detection
+  const duplicateBatch = () => {
+    const seen = new Set(); 
+    for (let row of batchRows) {
+      if (row.batch?.trim() && seen.has(row.batch.trim())) return row.batch;
+      if (row.batch?.trim()) seen.add(row.batch.trim());
+    }
+    return null;
+  };
+
+  function handleSave() {
+    const dup = duplicateBatch();
+    if (dup) return alert(`Duplicate batch found: ${dup}`);
+    // FR-03: calculate durations if not filled
+    onSave({
+      mode, 
+	  source: "bake",
+      batchRows, 
+      packed, 
+      hamper, 
+      strappings, 
+      returnHamper, 
+      waffleBoards, 
+      operator,
+    });
+    setBatchRows([{ batch: "", serials: [""], start: "", end: "", duration: "", furnace: "" }]);
+    setPacked(false); setHamper(""); setStrappings([]); setReturnHamper(false); setWaffleBoards([]);
+  }
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 10, padding: 28, maxWidth: 800, margin: '0 auto' }}>
+      <h2 style={{ fontWeight: 800, fontSize: 22 }}>Bake Batch Entry Demo</h2>
+      <div style={{ margin: '12px 0 17px 0' }}>
+        <label>
+          <input type="radio" checked={mode==="serialized"} onChange={()=>setMode("serialized")} /> Serialized&nbsp;
+        </label>
+        <label>
+          <input type="radio" checked={mode==="nonserialized"} onChange={()=>setMode("nonserialized")} /> Non-Serialized
+        </label>
+      </div>
+      <table style={{ width: "100%", background: "#fafafa", marginBottom: 18 }}>
+        <thead>
+          <tr>
+            <th>Batch Number(s)</th>
+            {mode==="serialized" && <th>Serials</th>}
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Duration (h:mm)</th>
+            <th>Furnace</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        {batchRows.map((row, i) => (
+          <tr key={i} style={{ background: duplicateBatch() === row.batch ? "#fee2e2" : undefined }}>
+            <td>
+              <input value={row.batch} onChange={e=>{
+                setBatchRows(bs => bs.map((br, j)=>j===i?{...br, batch:e.target.value}:br));
+              }} style={{...miniInputSt, border: duplicateBatch()===row.batch && row.batch !== '' ? "2px solid #dc2626":miniInputSt.border}} />
+            </td>
+            {mode === "serialized" && 
+              <td>
+                {(row.serials || [""]).map((s, si) => (
+                  <input key={si} value={s} placeholder="Serial" style={miniInputSt}
+                    onChange={e=>{
+                      setBatchRows(bs => 
+                        bs.map((br, j)=>
+                          j===i ? {...br, serials: br.serials.map((sv,k)=>k===si?e.target.value:sv)} : br
+                        )
+                      )
+                    }}
+                  />
+                ))}
+                <button style={navBtn} type="button" onClick={()=>setBatchRows(bs=>bs.map((br,j)=>j===i?{...br,serials:[...(br.serials||[]), ""]}:br))}>+Serial</button>
+              </td>
+            }
+            <td>
+              <input placeholder="Start" type="time" value={row.start}
+                onChange={e=>setBatchRows(bs=>bs.map((br,j)=>j===i?{...br, start:e.target.value}:br))} style={miniInputSt}/>
+            </td>
+            <td>
+              <input placeholder="End" type="time" value={row.end}
+                onChange={e=>setBatchRows(bs=>bs.map((br,j)=>j===i?{...br, end:e.target.value}:br))} style={miniInputSt}/>
+            </td>
+            <td>
+              <input placeholder="Dur" value={row.duration}
+                onChange={e=>setBatchRows(bs=>bs.map((br,j)=>j===i?{...br, duration:e.target.value}:br))} style={miniInputSt}/>
+            </td>
+            <td>
+              <select value={row.furnace} 
+                onChange={e=>setBatchRows(bs=>bs.map((br,j)=>j===i?{...br, furnace:e.target.value}:br))} style={miniInputSt}>
+                <option value="">Select</option>
+                {furnaceOptions.map(f=><option key={f}>{f}</option>)}
+              </select>
+            </td>
+            <td>
+              <button style={{ ...navBtn, background: "#64748b" }} type="button"
+                onClick={()=>setBatchRows(bs=>bs.filter((_,j)=>j!==i))}
+                disabled={batchRows.length===1}
+              >Remove</button>
+            </td>
+          </tr>
+        ))}
+        <tr>
+          <td colSpan={7}>
+            <button style={navBtn} type="button" onClick={()=>setBatchRows(bs=>[...bs,{ batch: "", serials:[ ""], start:"", end:"", duration:"", furnace:"" }])}>+ Add Batch Row</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      {/* Packing Section */}
+      <div style={{ marginBottom: 7, borderTop: "1px solid #e5e7eb", paddingTop: 13 }}>
+        <h4 style={{ margin: "13px 0 8px 0", fontWeight: 700 }}>Packing & Materials</h4>
+        <div>
+          <label>Assign to Hamper:{" "}
+            <select value={hamper} onChange={e=>setHamper(e.target.value)} style={miniInputSt}>
+              <option value="">Select</option>
+              {hamperOptions.map(h=><option key={h}>{h}</option>)}
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>Strapping Items:{" "}
+            {strappingItems.map(item=>(
+              <label key={item} style={{ marginLeft: 8 }}>
+                <input 
+                  type="checkbox"
+                  checked={strappings.includes(item)}
+                  onChange={e=>{
+                    setStrappings(s=>e.target.checked
+                      ? [...s, item] 
+                      : s.filter(i=>i!==item)
+                    );
+                  }}
+                /> {item}
+              </label>
+            ))}
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" checked={returnHamper} onChange={e=>setReturnHamper(e.target.checked)}/>
+            Return Hamper
+          </label>
+        </div>
+        <div>
+          <label>Waffle Boards: </label>
+          {waffleBoardItems.map(wb=>(
+            <label key={wb} style={{ marginLeft: 8 }}>
+              <input type="checkbox"
+                checked={waffleBoards.includes(wb)}
+                onChange={e=>{
+                  setWaffleBoards(w=>e.target.checked
+                    ? [...w, wb]
+                    : w.filter(i=>i!==wb)
+                  );
+                }}
+              /> {wb}
+            </label>
+          ))}
+        </div>
+      </div>
+      <button style={submitBtn} type="button" onClick={handleSave}>Save Bake Entry</button>
+    </div>
+  );
+}
+
+// -- Serializer -- 
+function SerializerRecordsView({
+  records,
+  onNew
+}: {
+  records: any[];
+  onNew: () => void;
+}) {
+  // Only show serializer
+  const serialRecords = records.filter(rec => rec.source === "serializer");
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+        <h2 style={{ fontWeight: 800, margin: 0, fontSize: 22 }}>Serializing — All Batch Loads</h2>
+        <button style={{ ...submitBtn }} onClick={onNew}>+ New Serial Batch</button>
+      </div>
+      {serialRecords.length === 0 &&
+        <div style={{ background: "#f3f8fe", color: "#64748b", borderRadius: 8, padding: 13 }}>No serial batch records yet.</div>
+      }
+      {serialRecords.length > 0 &&
+        <table style={{ width: "100%", background: "#fff", borderRadius: 13, boxShadow: "0 2px 8px #2233610c", border: "1px solid #e2e8f0" }}>
+          <thead>
+            <tr style={{ color: "#8492ac", fontSize: 13, textAlign: "left" }}>
+              <th>Batch</th>
+              <th>Operator</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Tube Count</th>
+              <th>Tube Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {serialRecords.map((row, idx) => (
+              <tr key={row.id || idx}>
+                <td>{row.batch}</td>
+                <td>{row.operator}</td>
+                <td>{row.startTime && (new Date(row.startTime).toLocaleString())}</td>
+                <td>{row.endTime && (new Date(row.endTime).toLocaleString())}</td>
+                <td>{row.tubes?.length || 0}</td>
+                <td>
+                  <details>
+                    <summary>View Tubes</summary>
+                    <ul>
+                      {row.tubes && row.tubes.map((t: any, i: number) =>
+                        <li key={i}>
+                          <b>{t.serialNo}</b>: OD={t.od}mm, Wall=({t.wall1}, {t.wall2}, {t.wall3})mm
+                        </li>
+                      )}
+                    </ul>
+                  </details>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
+    </div>
+  );
+}
+
+function SerializerDataEntry({
+  onSave,
+  onCancel,
+  operator
+}: {
+  onSave: (entry: any) => void;
+  onCancel: () => void;
+  operator: string;
+}) {
+  // --- Batch fields ---
+  const [batchNo, setBatchNo] = useState("BATCH-" + Math.floor(1000 + Math.random() * 9000));
+  const [operatorName, setOperatorName] = useState(operator || "");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  
+  // --- Tubes array ---
+  const [tubes, setTubes] = useState([
+    {
+      serialNo: "", // will auto-assign
+      od: "",
+      wall1: "",
+      wall2: "",
+      wall3: "",
+    }
+  ]);
+
+  // Auto-generate serial #'s on tubes array change
+  useEffect(() => {
+    setTubes(tbs =>
+      tbs.map((t, idx) => ({
+        ...t,
+        serialNo: `${batchNo}-${(idx + 1).toString().padStart(3, "0")}`
+      }))
+    );
+  }, [tubes.length, batchNo]);
+
+  // Validation helpers
+  function validTube(t: any) {
+    return t.od && t.wall1 && t.wall2 && t.wall3;
+  }
+  function batchValid() {
+    return batchNo && operatorName && startTime && endTime && tubes.every(validTube);
+  }
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 13, maxWidth: 720, margin: "0 auto", padding: "28px" }}>
+      <h2 style={{ fontWeight: 800, marginBottom: 14 }}>
+        Serializing — Batch Data Entry
+      </h2>
+      {/* Main batch form fields */}
+      <div style={{ display: "flex", gap: 18, marginBottom: 14 }}>
+        <div>
+          <label>Batch Number<br />
+            <input style={inputSt} value={batchNo} onChange={e => setBatchNo(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>Operator<br />
+            <input style={inputSt} value={operatorName} onChange={e => setOperatorName(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>Production Start<br />
+            <input style={inputSt} type="datetime-local" value={startTime} onChange={e => setStartTime(e.target.value)} />
+          </label>
+        </div>
+        <div>
+          <label>Production End<br />
+            <input style={inputSt} type="datetime-local" value={endTime} onChange={e => setEndTime(e.target.value)} />
+          </label>
+        </div>
+      </div>
+
+      {/* Tubes table */}
+      <table style={{ width: "100%", background: "#fafafa", marginBottom: 18 }}>
+        <thead>
+          <tr>
+            <th>Serial #</th>
+            <th>Outer Diameter (OD mm)</th>
+            <th>Wall Thickness 1 (mm)</th>
+            <th>Wall Thickness 2 (mm)</th>
+            <th>Wall Thickness 3 (mm)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {tubes.map((tube, idx) => (
+            <tr key={idx}>
+              <td>
+                <input style={miniInputSt} value={tube.serialNo} readOnly />
+              </td>
+              <td>
+                <input style={miniInputSt} value={tube.od}
+                  type="number" min={0}
+                  onChange={e => setTubes(ts =>
+                    ts.map((t, i) => i === idx ? { ...t, od: e.target.value } : t)
+                  )}
+                />
+              </td>
+              <td>
+                <input style={miniInputSt} value={tube.wall1}
+                  type="number" min={0}
+                  onChange={e => setTubes(ts =>
+                    ts.map((t, i) => i === idx ? { ...t, wall1: e.target.value } : t)
+                  )}
+                />
+              </td>
+              <td>
+                <input style={miniInputSt} value={tube.wall2}
+                  type="number" min={0}
+                  onChange={e => setTubes(ts =>
+                    ts.map((t, i) => i === idx ? { ...t, wall2: e.target.value } : t)
+                  )}
+                />
+              </td>
+              <td>
+                <input style={miniInputSt} value={tube.wall3}
+                  type="number" min={0}
+                  onChange={e => setTubes(ts =>
+                    ts.map((t, i) => i === idx ? { ...t, wall3: e.target.value } : t)
+                  )}
+                />
+              </td>
+              <td>
+                <button style={{ ...navBtn, background: "#64748b" }}
+                  type="button"
+                  onClick={() => setTubes(ts => ts.length === 1 ? ts : ts.filter((_, i) => i !== idx))}
+                  disabled={tubes.length === 1}
+                >Remove</button>
+              </td>
+            </tr>
+          ))}
+          <tr>
+            <td colSpan={6}>
+              <button style={navBtn} type="button"
+                onClick={() => setTubes(ts => [...ts, { serialNo: "", od: "", wall1: "", wall2: "", wall3: "" }])}>
+                + Add Tube
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style={{ display: "flex", gap: 16, marginTop: 22 }}>
+        <button
+          style={{ ...submitBtn, opacity: !batchValid() ? 0.7 : 1 }}
+          type="button"
+          disabled={!batchValid()}
+          onClick={() => {
+            if (!batchValid()) return;
+            onSave({
+              id: Date.now() + "_" + Math.random(),
+              batch: batchNo,
+              operator: operatorName,
+              startTime,
+              endTime,
+              tubes: tubes.map(t => ({ ...t })),
+              tubeQty: tubes.length,
+              source: "serializer",
+              createdAt: new Date().toISOString()
+            });
+          }}
+        >Save Batch</button>
+        <button style={{ ...submitBtn, background: "#64748b" }} type="button" onClick={onCancel}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+//-- HV Pack --
+function HvPackRecordsView({
+  records,
+  onNew
+}: {
+  records: any[],
+  onNew: () => void
+}) {
+  const hvRecords = records.filter(r => r.source === "hvpack");
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+        <h2 style={{ fontWeight: 800, fontSize: 22, margin: 0 }}>HV Packs — All Records</h2>
+        <button style={submitBtn} onClick={onNew}>+ New HV Pack Entry</button>
+      </div>
+      {hvRecords.length === 0 &&
+        <div style={{ background: "#f3f8fe", color: "#64748b", borderRadius: 8, padding: 13 }}>No HV Pack records yet.</div>
+      }
+      {hvRecords.length > 0 &&
+        <table style={{ width: "100%", background: "#fff", borderRadius: 13, boxShadow: "0 2px 8px #2233610c", border: "1px solid #e2e8f0" }}>
+          <thead>
+            <tr style={{ color: "#8492ac", fontSize: 13, textAlign: "left" }}>
+              <th>Item Number</th>
+              <th>Item Description</th>
+              <th>Batches (Qty/Hamper/Dimensions)</th>
+              <th>Packing Materials</th>
+              <th>Operator</th>
+              <th>Created On</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hvRecords.map((row, idx) => (
+              <tr key={row.id || idx}>
+                <td>{row.itemNo}</td>
+                <td>{row.itemDesc}</td>
+                <td>
+                  <details>
+                    <summary>{row.batches.length} batch(es)</summary>
+                    <ul>
+                      {row.batches.map((bt: any, bi: number) => (
+                        <li key={bi}>
+                          <b>{bt.batchNo}</b> (Qty: {bt.qty}, Hamper: {bt.hamper}, {bt.length}×{bt.width}×{bt.height}mm)
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                </td>
+                <td>
+                  {[row.returnHamper ? "Return Hamper" : "", ...(row.waffleBoards || [])].filter(Boolean).join(", ")}
+                </td>
+                <td>{row.operator || "-"}</td>
+                <td>{row.createdAt && (new Date(row.createdAt).toLocaleString())}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
+    </div>
+  );
+}
+
+const hvBatchInit = { batchNo: "", qty: "", hamper: "", length: "", width: "", height: "" };
+
+function HvPackDataEntry({
+  onSave, onCancel, operator
+}: {
+  onSave: (entry: any) => void,
+  onCancel: () => void,
+  operator: string
+}) {
+  // --- Main item fields (FR-01)
+  const [itemNo, setItemNo] = useState("HV-834122");
+  const [itemDesc, setItemDesc] = useState("");
+  // Demo: auto-fill description (simulate SAP lookup)
+  useEffect(() => {
+    const itemInfo = { "HV-834122": "High Voltage Main Converter", "HV-268413": "HV Battery Module" };
+    setItemDesc((itemInfo as Record<string, string>)[itemNo] || "SAP Lookup…");
+  }, [itemNo]);
+
+  // --- Batches array (FR-02, FR-03, FR-04)
+  const [batches, setBatches] = useState([{ ...hvBatchInit }]);
+
+  // --- Packing materials (FR-05)
+  const [returnHamper, setReturnHamper] = useState(false);
+  const [waffleBoards, setWaffleBoards] = useState<string[]>([]);
+  const [operatorName, setOperatorName] = useState(operator);
+  // --- Option lists
+  const batchHampers = ['66" Hamper', '70" Hamper', '86" Hamper', '110" Hamper'];
+  const waffleOpts = ["Waffle-G110", "Waffle-PL80", "Waffle-HL77"];
+  // --- Duplicate batchNo detection
+  const duplicateBatchNo = () => {
+    const seen = new Set();
+    for (let b of batches) {
+      if (b.batchNo.trim() && seen.has(b.batchNo.trim())) return b.batchNo;
+      if (b.batchNo.trim()) seen.add(b.batchNo.trim());
+    }
+    return null;
+  };
+
+  // --- For validation ---
+  const validBatch = (b: typeof hvBatchInit) => !!b.batchNo && !!b.qty && !!b.hamper && !!b.length && !!b.width && !!b.height;
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 13, maxWidth: 700, margin: "0 auto", padding: 28 }}>
+      <h2 style={{ fontWeight: 800, marginBottom: 12 }}>HV Pack — Data Entry</h2>
+      <div style={{ display: "flex", gap: 22, marginBottom: 16 }}>
+        <div>
+          <label>Item Number (SAP #)<br />
+            <select style={inputSt} value={itemNo} onChange={e => setItemNo(e.target.value)}>
+              <option value="HV-834122">HV-834122</option>
+              <option value="HV-268413">HV-268413</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>Item Description<br />
+            <input style={{ ...inputSt, background: "#f3f8fe" }} value={itemDesc} readOnly />
+          </label>
+        </div>
+        <div>
+          <label>Operator<br />
+            <input style={inputSt} value={operatorName} onChange={e => setOperatorName(e.target.value)} />
+          </label>
+        </div>
+      </div>
+      <table style={{ width: "100%", background: "#fafafa", marginBottom: 14 }}>
+        <thead>
+          <tr>
+            <th>Batch #</th>
+            <th>Qty</th>
+            <th>Hamper</th>
+            <th>Length (mm)</th>
+            <th>Width (mm)</th>
+            <th>Height (mm)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {batches.map((b, idx) => (
+            <tr key={idx} style={{ background: duplicateBatchNo() === b.batchNo ? "#fee2e2" : undefined }}>
+              <td>
+                <input
+                  style={{
+                    ...miniInputSt,
+                    border: duplicateBatchNo() === b.batchNo && b.batchNo !== '' ? "2px solid #dc2626" : miniInputSt.border
+                  }}
+                  value={b.batchNo}
+                  onChange={e => setBatches(bs => bs.map((batch, i) => i === idx ? { ...batch, batchNo: e.target.value } : batch))}
+                />
+              </td>
+              <td>
+                <input style={miniInputSt} type="number" min={1} value={b.qty}
+                  onChange={e => setBatches(bs => bs.map((batch, i) => i === idx ? { ...batch, qty: e.target.value } : batch))}
+                />
+              </td>
+              <td>
+                <select style={miniInputSt} value={b.hamper}
+                  onChange={e => setBatches(bs => bs.map((batch, i) => i === idx ? { ...batch, hamper: e.target.value } : batch))}
+                >
+                  <option value="">Select</option>
+                  {batchHampers.map(h => <option key={h}>{h}</option>)}
+                </select>
+              </td>
+              <td>
+                <input style={miniInputSt} type="number" min={0} value={b.length}
+                  onChange={e => setBatches(bs => bs.map((batch, i) => i === idx ? { ...batch, length: e.target.value } : batch))}
+                />
+              </td>
+              <td>
+                <input style={miniInputSt} type="number" min={0} value={b.width}
+                  onChange={e => setBatches(bs => bs.map((batch, i) => i === idx ? { ...batch, width: e.target.value } : batch))}
+                />
+              </td>
+              <td>
+                <input style={miniInputSt} type="number" min={0} value={b.height}
+                  onChange={e => setBatches(bs => bs.map((batch, i) => i === idx ? { ...batch, height: e.target.value } : batch))}
+                />
+              </td>
+              <td>
+                <button style={{ ...navBtn, background: "#64748b" }}
+                  type="button"
+                  disabled={batches.length === 1}
+                  onClick={() => setBatches(bs => bs.length === 1 ? bs : bs.filter((__, i) => i !== idx))}
+                >Remove</button>
+              </td>
+            </tr>
+          ))}
+          {/* Add batch if <8 */}
+          {batches.length < 8 &&
+            <tr>
+              <td colSpan={7}>
+                <button style={navBtn} type="button"
+                  onClick={() => setBatches(bs => [...bs, { ...hvBatchInit }])}>
+                  + Add Batch
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      {/* Packing materials */}
+      <div style={{ marginBottom: 7, borderTop: "1px solid #e5e7eb", paddingTop: 13 }}>
+        <h4 style={{ margin: "13px 0 8px 0", fontWeight: 700 }}>Packing Materials</h4>
+        <div>
+          <label>
+            <input type="checkbox" checked={returnHamper} onChange={e => setReturnHamper(e.target.checked)} />
+            Return Hamper
+          </label>
+        </div>
+        <div>
+          <label>Waffle Boards:</label>
+          {waffleOpts.map(wb => (
+            <label key={wb} style={{ marginLeft: 8 }}>
+              <input type="checkbox"
+                checked={waffleBoards.includes(wb)}
+                onChange={e => setWaffleBoards(w => e.target.checked ? [...w, wb] : w.filter(i => i !== wb))}
+              /> {wb}
+            </label>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 16, marginTop: 22 }}>
+        <button
+          style={submitBtn}
+          type="button"
+          disabled={
+            !itemNo ||
+            !itemDesc ||
+            !operatorName ||
+            batches.length === 0 ||
+            batches.some(b => !validBatch(b)) ||
+            !!duplicateBatchNo()
+          }
+          onClick={() => {
+            if (duplicateBatchNo()) {
+              alert(`Duplicate batch number detected: ${duplicateBatchNo()}`);
+              return;
+            }
+            if (!itemNo || !itemDesc || !operatorName || batches.length === 0 || batches.some(b => !validBatch(b))) {
+              alert("Please complete all fields");
+              return;
+            }
+            onSave({
+              id: Date.now() + "_" + Math.random(),
+              itemNo,
+              itemDesc,
+              batches: batches.map(b => ({ ...b })),
+              returnHamper,
+              waffleBoards,
+              operator: operatorName,
+              createdAt: new Date().toISOString(),
+              source: "hvpack"
+            });
+          }}
+        >Save HV Pack</button>
+        <button style={{ ...submitBtn, background: "#64748b" }} type="button" onClick={onCancel}>Cancel</button>
+      </div>
+    </div>
+  );
 }
 
 // --- App ---
@@ -196,6 +943,15 @@ export default function App() {
   // Derived user display
   const { display, username } = user || { display: "", username: "" };
   const initials = user ? (display?.split(" ").map(s => s[0]).join("").slice(0, 2).toUpperCase() || username[0].toUpperCase()) : "";
+  
+  // Bake State
+  const [showBakeEntryForm, setShowBakeEntryForm] = useState(false);
+  
+  // Serializer State
+  const [showSerialForm, setShowSerialForm] = useState(false);
+  
+  // HV Pack
+  const [showHvForm, setShowHvForm] = useState(false);
 
   // ----------------- UI Render -------------------
   if (!user) return (
@@ -321,43 +1077,64 @@ export default function App() {
           }
           {/* ...other tabs as before... */}
           {sideTab === "bake" && (
-            <Section
-              icon={lucide.sand}
-              name="Baking Sand Workflow"
-              color="#eab308"
-              steps={[
-                { label: "Sand Batch Prep", caption: "Stage and test raw sand", done: true },
-                { label: "FIFO Distribution", caption: "Deliver to furnaces, FIFO rule", done: true },
-                { label: "Bagging", caption: "Pack, print lots, scan into system", done: false },
-                { label: "Warehouse Transfer", caption: "Move to warehouse, SAP update", done: false }
-              ]}
-            />
-          )}
+  showBakeEntryForm ? (
+    <BakeSandDemo
+      user={user}
+      onSave={entry => {
+        setLampRodRecords(prev => [
+          { ...entry, id: Date.now() + "_" + Math.random(), createdBy: user.username, createdAt: new Date().toISOString(), source: "bake" },
+          ...prev,
+        ]);
+        setShowBakeEntryForm(false);
+      }}
+    />
+  ) : (
+    <BakeSandRecordsView
+      records={lampRodRecords}
+      onNew={() => setShowBakeEntryForm(true)}
+    />
+  )
+)}
           {sideTab === "serial" && (
-            <Section
-              icon={lucide.serial}
-              name="Serializing"
-              color="#a21caf"
-              steps={[
-                { label: "Serial Batch Generation", caption: "Create code series for new lots", done: true },
-                { label: "Print & Apply", caption: "Affix, scan for QA", done: false },
-                { label: "System Log", caption: "Track lot movement", done: false }
-              ]}
-            />
-          )}
+  showSerialForm ? (
+    <SerializerDataEntry
+      operator={display || username}
+      onSave={entry => {
+        setLampRodRecords(prev => [
+          { ...entry, id: entry.id || Date.now() + "_" + Math.random(), createdBy: user.username, createdAt: new Date().toISOString(), source: "serializer" },
+          ...prev
+        ]);
+        setShowSerialForm(false);
+      }}
+      onCancel={() => setShowSerialForm(false)}
+    />
+  ) : (
+    <SerializerRecordsView
+      records={lampRodRecords}
+      onNew={() => setShowSerialForm(true)}
+    />
+  )
+)}
           {sideTab === "hv" && (
-            <Section
-              icon={lucide.hv}
-              name="HV High Voltage Pack"
-              color="#0ea5e9"
-              steps={[
-                { label: "Staging", caption: "Assemble HV components", done: true },
-                { label: "Component QA", caption: "Verify matches & log", done: true },
-                { label: "Smart Packing", caption: "Pack, print, and scan", done: false },
-                { label: "Outbound", caption: "Move to dock, SAP stock", done: false }
-              ]}
-            />
-          )}
+  showHvForm ? (
+    <HvPackDataEntry
+      operator={display || username}
+      onSave={entry => {
+        setLampRodRecords(prev => [
+          { ...entry, id: entry.id || Date.now() + "_" + Math.random(), createdBy: user.username, createdAt: new Date().toISOString(), source: "hvpack" },
+          ...prev
+        ]);
+        setShowHvForm(false);
+      }}
+      onCancel={() => setShowHvForm(false)}
+    />
+  ) : (
+    <HvPackRecordsView
+      records={lampRodRecords}
+      onNew={() => setShowHvForm(true)}
+    />
+  )
+)}
           {sideTab === "admin" && user.role === "Admin" && (
             <div style={{
               background: "#fff",
